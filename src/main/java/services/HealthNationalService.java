@@ -1,8 +1,8 @@
-package main.java.services;
+package services;
 
 import consultamedica.MedicalHistory;
 import consultamedica.MedicalPrescription;
-import main.java.data.HealthCardID;
+import data.HealthCardID;
 
 public interface HealthNationalService {
     MedicalHistory getMedicalHistory (HealthCardID cip)

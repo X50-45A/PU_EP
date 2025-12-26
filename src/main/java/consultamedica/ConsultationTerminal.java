@@ -1,6 +1,5 @@
 package consultamedica;
 
-
 import data.DigitalSignature;
 import data.HealthCardID;
 import data.ProductID;
@@ -9,8 +8,12 @@ import java.net.ConnectException;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import main.java.services.HealthNationalService;
-import main.java.services.DecisionMakingAI;
+import services.HealthNationalService;
+import services.DecisionMakingAI;
+import main.java.services.HealthCardIDException;
+import main.java.services.AnyCurrentPrescriptionException;
+import main.java.services.NotCompletedMedicalPrescription;
+
 public class ConsultationTerminal {
     private HealthNationalService hns;
     private DecisionMakingAI ai;
@@ -220,7 +223,11 @@ public class ConsultationTerminal {
             throw new ProceduralException("Debe iniciar la revisión primero");
         }
 
-        lastAIResponse = ai.getSuggestions(prompt);
+        try {
+            lastAIResponse = ai.getSuggestions(prompt);
+        } catch (main.java.services.BadPromptException e) {
+            throw new RuntimeException(e);
+        }
         return lastAIResponse;
     }
 

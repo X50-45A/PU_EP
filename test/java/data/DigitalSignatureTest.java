@@ -1,4 +1,4 @@
-package data;
+package java.data;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;

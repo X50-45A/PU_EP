@@ -1,5 +1,7 @@
 package services.doubles;
 
+import main.java.services.BadPromptException;
+import main.java.services.Suggestion;
 import services.DecisionMakingAI;
 import medicalconsultation.Suggestion;
 import java.util.ArrayList;
@@ -27,14 +29,14 @@ public class DecisionMakingAIMock implements DecisionMakingAI {
     }
 
     @Override
-    public void initDecisionMakingAI() {
+    public void initDecisionMakingAI() throws AIException {
         if (throwAIException) {
             throw new RuntimeException("AI Exception: Cannot initialize AI");
         }
     }
 
     @Override
-    public String getSuggestions(String prompt) {
+    public String getSuggestions(String prompt) throws BadPromptException {
         if (throwAIException) {
             throw new RuntimeException("AI Exception: Error getting suggestions");
         }
