@@ -1,41 +1,45 @@
-package medicalconsultation.services.doubles;
-import services.*;
-import data.*;
-import java.util.Date;
+package services.doubles;
 
-public class HealthNationalServiceStub implements HealthNationalService {
-    
+import services.DecisionMakingAI;
+import medicalconsultation.Suggestion;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Stub para DecisionMakingAI - simula comportamiento exitoso
+ */
+public class DecisionMakingAIStub implements DecisionMakingAI {
+
     @Override
-    public MedicalHistory getMedicalHistory(HealthCardID cip) 
-            throws ConnectException, HealthCardIDException {
-        // Devuelve siempre un historial válido
-        return new MedicalHistory(cip, 100);
+    public void initDecisionMakingAI() {
+        // Simula inicialización exitosa
     }
-    
+
     @Override
-    public MedicalPrescription getMedicalPrescription(
-            HealthCardID cip, String illness)
-            throws ConnectException, HealthCardIDException, 
-                   AnyCurrentPrescriptionException {
-        // Devuelve siempre una prescripción válida
-        return new MedicalPrescription(cip, 100, illness);
+    public String getSuggestions(String prompt) {
+        if (prompt == null || prompt.isEmpty()) {
+            throw new IllegalArgumentException("Prompt cannot be null or empty");
+        }
+        // Devuelve respuesta simulada
+        return "I suggest: <I, 123456789012, BEFORELUNCH, 15, 1, 1, DAY, Con agua> " +
+               "<M, 210987654321, , , 3, , , > " +
+               "<R, 640557143200>";
     }
-    
+
     @Override
-    public MedicalPrescription sendHistoryAndPrescription(
-            HealthCardID cip, MedicalHistory hce, String illness, 
-            MedicalPrescription mPresc)
-            throws ConnectException, HealthCardIDException,
-                   AnyCurrentPrescriptionException, 
-                   NotCompletedMedicalPrescription {
-        // Simula envío exitoso
-        mPresc.setPrescCode(new ePrescripCode("CODE123456"));
-        return mPresc;
-    }
-    
-    @Override
-    public MedicalPrescription generateTreatmCodeAndRegister(
-            MedicalPrescription ePresc) throws ConnectException {
-        return ePresc;
+    public List<Suggestion> parseSuggest(String aiAnswer) {
+        List<Suggestion> suggestions = new ArrayList<>();
+        
+        if (aiAnswer == null || aiAnswer.isEmpty()) {
+            return suggestions;
+        }
+        
+        // Parsea respuesta simulada
+        suggestions.add(new Suggestion("I", "123456789012", "BEFORELUNCH", "15", "1", "1", "DAY", "Con agua"));
+        suggestions.add(new Suggestion("M", "210987654321", "", "", "3", "", "", ""));
+        suggestions.add(new Suggestion("R", "640557143200", "", "", "", "", "", ""));
+        
+        return suggestions;
     }
 }
+

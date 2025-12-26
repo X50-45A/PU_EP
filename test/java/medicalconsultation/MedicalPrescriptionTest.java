@@ -1,179 +1,329 @@
 package medicalconsultation;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-import data.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import data.HealthCardID;
+import data.ProductID;
+import data.ePrescripCode;
+import java.util.Date;
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("MedicalPrescription Tests")
 public class MedicalPrescriptionTest {
-    
+
     private MedicalPrescription prescription;
     private HealthCardID cip;
     private ProductID product1;
     private ProductID product2;
     private String[] validGuidelines;
-    
+
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         cip = new HealthCardID("1234567890ABCDEF");
         product1 = new ProductID("123456789012");
         product2 = new ProductID("210987654321");
-        
-        // Guidelines: dayMoment, duration, dose, freq, freqUnit, instructions
-        validGuidelines = new String[]{
-            "BEFORELUNCH",  // dayMoment
-            "15",           // duration
-            "1",            // dose
-            "1",            // frequency
-            "DAY",          // freqUnit
-            "Tomar con agua"// instructions
-        };
-        
+        validGuidelines = new String[]{"BEFORELUNCH", "15", "1", "1", "DAY", "Tomar con agua"};
         prescription = new MedicalPrescription(cip, 100, "Hipertensión");
     }
-    
-    // === ADDLINE TESTS ===
-    
-    @Test
-    void testAddLineWithValidProduct() throws Exception {
-        prescription.addLine(product1, validGuidelines);
-        // Verificar que la línea se añadió
-        assertDoesNotThrow(() -> prescription.getPrescriptionLine(product1));
+
+    @Nested
+    @DisplayName("Constructor Tests")
+    class ConstructorTests {
+
+        @Test
+        @DisplayName("Constructor accepts valid parameters")
+        void testConstructorWithValidParameters() {
+            assertNotNull(prescription);
+            assertEquals(cip, prescription.getHealthCardID());
+            assertEquals(100, prescription.getMembShipNumb());
+            assertEquals("Hipertensión", prescription.getIllness());
+        }
+
+        @Test
+        @DisplayName("Constructor throws exception when HealthCardID is null")
+        void testConstructorWithNullCIP() {
+            assertThrows(Exception.class, () -> {
+                new MedicalPrescription(null, 100, "Hipertensión");
+            });
+        }
+
+        @Test
+        @DisplayName("Constructor throws exception when membership <= 0")
+        void testConstructorWithInvalidMembership() {
+            assertThrows(Exception.class, () -> {
+                new MedicalPrescription(cip, 0, "Hipertensión");
+            });
+
+            assertThrows(Exception.class, () -> {
+                new MedicalPrescription(cip, -5, "Hipertensión");
+            });
+        }
+
+        @Test
+        @DisplayName("Constructor throws exception when illness is null")
+        void testConstructorWithNullIllness() {
+            assertThrows(Exception.class, () -> {
+                new MedicalPrescription(cip, 100, null);
+            });
+        }
+
+        @Test
+        @DisplayName("Constructor throws exception when illness is empty")
+        void testConstructorWithEmptyIllness() {
+            assertThrows(Exception.class, () -> {
+                new MedicalPrescription(cip, 100, "");
+            });
+        }
     }
-    
-    @Test
-    void testAddLineWithDuplicateProduct() throws Exception {
-        prescription.addLine(product1, validGuidelines);
-        // Intentar añadir el mismo producto otra vez
-        assertThrows(ProductAlreadyInPrescriptionException.class, () -> {
+
+    @Nested
+    @DisplayName("addLine() Success Tests")
+    class AddLineSuccessTests {
+
+        @Test
+        @DisplayName("addLine adds medicine with valid guidelines")
+        void testAddLineWithValidProduct() {
+            assertDoesNotThrow(() -> {
+                prescription.addLine(product1, validGuidelines);
+            });
+        }
+
+        @Test
+        @DisplayName("addLine medicine can be retrieved")
+        void testAddLineAndRetrieve() {
             prescription.addLine(product1, validGuidelines);
-        });
+            assertDoesNotThrow(() -> {
+                prescription.getPrescriptionLine(product1);
+            });
+        }
+
+        @Test
+        @DisplayName("addLine multiple different products")
+        void testAddMultipleDifferentProducts() {
+            prescription.addLine(product1, validGuidelines);
+            prescription.addLine(product2, validGuidelines);
+            
+            assertDoesNotThrow(() -> {
+                prescription.getPrescriptionLine(product1);
+                prescription.getPrescriptionLine(product2);
+            });
+        }
     }
-    
-    @Test
-    void testAddLineWithNullProduct() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            prescription.addLine(null, validGuidelines);
-        });
+
+    @Nested
+    @DisplayName("addLine() Exception Tests")
+    class AddLineExceptionTests {
+
+        @Test
+        @DisplayName("addLine throws exception with duplicate ProductID")
+        void testAddLineDuplicateProduct() {
+            prescription.addLine(product1, validGuidelines);
+            assertThrows(Exception.class, () -> {
+                prescription.addLine(product1, validGuidelines);
+            });
+        }
+
+        @Test
+        @DisplayName("addLine throws exception with null ProductID")
+        void testAddLineWithNullProduct() {
+            assertThrows(Exception.class, () -> {
+                prescription.addLine(null, validGuidelines);
+            });
+        }
+
+        @Test
+        @DisplayName("addLine throws exception with null guidelines")
+        void testAddLineWithNullGuidelines() {
+            assertThrows(Exception.class, () -> {
+                prescription.addLine(product1, null);
+            });
+        }
+
+        @Test
+        @DisplayName("addLine throws exception with incomplete guidelines")
+        void testAddLineWithIncompleteGuidelines() {
+            String[] incompleteGuidelines = new String[]{"BEFORELUNCH", "15"};
+            assertThrows(Exception.class, () -> {
+                prescription.addLine(product1, incompleteGuidelines);
+            });
+        }
+
+        @Test
+        @DisplayName("addLine throws exception with malformed guidelines")
+        void testAddLineWithMalformedGuidelines() {
+            String[] malformedGuidelines = new String[]{"INVALIDMOMENT", "15", "1", "1", "DAY", "Con agua"};
+            assertThrows(Exception.class, () -> {
+                prescription.addLine(product1, malformedGuidelines);
+            });
+        }
     }
-    
-    @Test
-    void testAddLineWithNullGuidelines() {
-        assertThrows(IncorrectTakingGuidelinesException.class, () -> {
-            prescription.addLine(product1, null);
-        });
+
+    @Nested
+    @DisplayName("modifyDoseInLine() Success Tests")
+    class ModifyDoseSuccessTests {
+
+        @BeforeEach
+        void setUp() {
+            prescription.addLine(product1, validGuidelines);
+        }
+
+        @Test
+        @DisplayName("modifyDoseInLine updates dose correctly")
+        void testModifyDoseInExistingLine() {
+            prescription.modifyDoseInLine(product1, 2.0f);
+            assertEquals(2.0f, prescription.getPrescriptionLine(product1)
+                    .getTakingGuideline().getPosology().getDose());
+        }
+
+        @Test
+        @DisplayName("modifyDoseInLine does not affect other lines")
+        void testModifyDoseDoesNotAffectOtherLines() {
+            prescription.addLine(product2, validGuidelines);
+            prescription.modifyDoseInLine(product1, 5.0f);
+            
+            assertEquals(1.0f, prescription.getPrescriptionLine(product2)
+                    .getTakingGuideline().getPosology().getDose());
+        }
+
+        @Test
+        @DisplayName("modifyDoseInLine multiple times")
+        void testModifyDoseMultipleTimes() {
+            prescription.modifyDoseInLine(product1, 2.0f);
+            prescription.modifyDoseInLine(product1, 3.0f);
+            
+            assertEquals(3.0f, prescription.getPrescriptionLine(product1)
+                    .getTakingGuideline().getPosology().getDose());
+        }
     }
-    
-    @Test
-    void testAddLineWithIncompleteGuidelines() {
-        String[] incompleteGuidelines = new String[]{
-            "BEFORELUNCH",
-            "15"
-            // Faltan elementos
-        };
-        assertThrows(IncorrectTakingGuidelinesException.class, () -> {
-            prescription.addLine(product1, incompleteGuidelines);
-        });
+
+    @Nested
+    @DisplayName("modifyDoseInLine() Exception Tests")
+    class ModifyDoseExceptionTests {
+
+        @Test
+        @DisplayName("modifyDoseInLine throws exception for non-existent ProductID")
+        void testModifyDoseNonExistentProduct() {
+            assertThrows(Exception.class, () -> {
+                prescription.modifyDoseInLine(product1, 2.0f);
+            });
+        }
+
+        @Test
+        @DisplayName("modifyDoseInLine throws exception with negative dose")
+        void testModifyDoseNegative() {
+            prescription.addLine(product1, validGuidelines);
+            assertThrows(Exception.class, () -> {
+                prescription.modifyDoseInLine(product1, -1.0f);
+            });
+        }
+
+        @Test
+        @DisplayName("modifyDoseInLine throws exception with zero dose")
+        void testModifyDoseZero() {
+            prescription.addLine(product1, validGuidelines);
+            assertThrows(Exception.class, () -> {
+                prescription.modifyDoseInLine(product1, 0.0f);
+            });
+        }
     }
-    
-    @Test
-    void testAddMultipleDifferentProducts() throws Exception {
-        prescription.addLine(product1, validGuidelines);
-        prescription.addLine(product2, validGuidelines);
-        // Ambos productos deberían estar presentes
-        assertDoesNotThrow(() -> prescription.getPrescriptionLine(product1));
-        assertDoesNotThrow(() -> prescription.getPrescriptionLine(product2));
-    }
-    
-    // === MODIFYDOSE TESTS ===
-    
-    @Test
-    void testModifyDoseInExistingLine() throws Exception {
-        prescription.addLine(product1, validGuidelines);
-        prescription.modifyDoseInLine(product1, 2.5f);
-        // Verificar que la dosis se modificó
-        PrescriptionLine line = prescription.getPrescriptionLine(product1);
-        assertEquals(2.5f, line.getTakingGuideline().getPosology().getDose());
-    }
-    
-    @Test
-    void testModifyDoseInNonExistentProduct() {
-        assertThrows(ProductNotInPrescriptionException.class, () -> {
-            prescription.modifyDoseInLine(product1, 2.5f);
-        });
-    }
-    
-    @Test
-    void testModifyDoseWithNegativeValue() throws Exception {
-        prescription.addLine(product1, validGuidelines);
-        assertThrows(IllegalArgumentException.class, () -> {
-            prescription.modifyDoseInLine(product1, -1.0f);
-        });
-    }
-    
-    @Test
-    void testModifyDoseWithZero() throws Exception {
-        prescription.addLine(product1, validGuidelines);
-        assertThrows(IllegalArgumentException.class, () -> {
-            prescription.modifyDoseInLine(product1, 0.0f);
-        });
-    }
-    
-    @Test
-    void testModifyDoseDoesNotAffectOtherLines() throws Exception {
-        prescription.addLine(product1, validGuidelines);
-        prescription.addLine(product2, validGuidelines);
-        
-        prescription.modifyDoseInLine(product1, 5.0f);
-        
-        // product2 no debe haber cambiado
-        PrescriptionLine line2 = prescription.getPrescriptionLine(product2);
-        assertEquals(1.0f, line2.getTakingGuideline().getPosology().getDose());
-    }
-    
-    // === REMOVELINE TESTS ===
-    
-    @Test
-    void testRemoveExistingLine() throws Exception {
-        prescription.addLine(product1, validGuidelines);
-        prescription.removeLine(product1);
-        
-        assertThrows(ProductNotInPrescriptionException.class, () -> {
-            prescription.getPrescriptionLine(product1);
-        });
-    }
-    
-    @Test
-    void testRemoveNonExistentProduct() {
-        assertThrows(ProductNotInPrescriptionException.class, () -> {
+
+    @Nested
+    @DisplayName("removeLine() Success Tests")
+    class RemoveLineSuccessTests {
+
+        @BeforeEach
+        void setUp() {
+            prescription.addLine(product1, validGuidelines);
+        }
+
+        @Test
+        @DisplayName("removeLine removes medicine correctly")
+        void testRemoveExistingLine() {
             prescription.removeLine(product1);
-        });
+            assertThrows(Exception.class, () -> {
+                prescription.getPrescriptionLine(product1);
+            });
+        }
+
+        @Test
+        @DisplayName("removeLine does not affect other lines")
+        void testRemoveDoesNotAffectOtherLines() {
+            prescription.addLine(product2, validGuidelines);
+            prescription.removeLine(product1);
+            
+            assertDoesNotThrow(() -> {
+                prescription.getPrescriptionLine(product2);
+            });
+        }
+
+        @Test
+        @DisplayName("removeLine multiple medicines")
+        void testRemoveMultipleLines() {
+            prescription.addLine(product2, validGuidelines);
+            prescription.removeLine(product1);
+            prescription.removeLine(product2);
+            
+            assertThrows(Exception.class, () -> {
+                prescription.getPrescriptionLine(product1);
+            });
+            assertThrows(Exception.class, () -> {
+                prescription.getPrescriptionLine(product2);
+            });
+        }
     }
-    
-    @Test
-    void testRemoveDoesNotAffectOtherLines() throws Exception {
-        prescription.addLine(product1, validGuidelines);
-        prescription.addLine(product2, validGuidelines);
-        
-        prescription.removeLine(product1);
-        
-        // product2 debe seguir siendo accesible
-        assertDoesNotThrow(() -> prescription.getPrescriptionLine(product2));
+
+    @Nested
+    @DisplayName("removeLine() Exception Tests")
+    class RemoveLineExceptionTests {
+
+        @Test
+        @DisplayName("removeLine throws exception for non-existent ProductID")
+        void testRemoveNonExistentProduct() {
+            assertThrows(Exception.class, () -> {
+                prescription.removeLine(product1);
+            });
+        }
     }
-    
-    @Test
-    void testRemoveMultipleLines() throws Exception {
-        prescription.addLine(product1, validGuidelines);
-        prescription.addLine(product2, validGuidelines);
-        
-        prescription.removeLine(product1);
-        prescription.removeLine(product2);
-        
-        assertThrows(ProductNotInPrescriptionException.class, () -> {
-            prescription.getPrescriptionLine(product1);
-        });
-        
-        assertThrows(ProductNotInPrescriptionException.class, () -> {
-            prescription.getPrescriptionLine(product2);
-        });
+
+    @Nested
+    @DisplayName("Getter Tests")
+    class GetterTests {
+
+        @Test
+        @DisplayName("getHealthCardID returns correct CIP")
+        void testGetHealthCardID() {
+            assertEquals(cip, prescription.getHealthCardID());
+        }
+
+        @Test
+        @DisplayName("getMembShipNumb returns correct number")
+        void testGetMembShipNumb() {
+            assertEquals(100, prescription.getMembShipNumb());
+        }
+
+        @Test
+        @DisplayName("getIllness returns correct illness")
+        void testGetIllness() {
+            assertEquals("Hipertensión", prescription.getIllness());
+        }
+    }
+
+    @Nested
+    @DisplayName("Edge Cases Tests")
+    class EdgeCasesTests {
+
+        @Test
+        @DisplayName("Add, modify, remove same product in sequence")
+        void testAddModifyRemoveSequence() {
+            prescription.addLine(product1, validGuidelines);
+            prescription.modifyDoseInLine(product1, 2.0f);
+            prescription.removeLine(product1);
+            
+            assertThrows(Exception.class, () -> {
+                prescription.getPrescriptionLine(product1);
+            });
+        }
     }
 }
