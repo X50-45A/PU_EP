@@ -1,6 +1,6 @@
-package main.java.consultamedica;
+package consultamedica;
 
-import main.java.data.HealthCardID;
+import data.HealthCardID;
 
 /**
  * Representa la historia clínica de un paciente

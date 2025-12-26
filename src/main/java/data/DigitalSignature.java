@@ -1,4 +1,4 @@
-package main.java.data;
+package data;
 
 final public class DigitalSignature {
     private final byte[] signature;

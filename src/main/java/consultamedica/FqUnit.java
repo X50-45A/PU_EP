@@ -1,4 +1,4 @@
-package main.java.consultamedica;
+package consultamedica;
 
 public enum FqUnit {
     HOUR, DAY, WEEK, MONTH;

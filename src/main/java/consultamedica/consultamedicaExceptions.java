@@ -1,4 +1,4 @@
-package main.java.consultamedica;
+package consultamedica;
 
 /**
  * Excepción lanzada cuando los parámetros proporcionados son incorrectos

@@ -1,4 +1,4 @@
-package main.java.consultamedica;
+package consultamedica;
 
 /**
  * Representa la posología de un medicamento (dosis y frecuencia)

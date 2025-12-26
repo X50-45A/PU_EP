@@ -1,4 +1,4 @@
-package main.java.data;
+package data;
 
 final public class ePrescripCode {
     private final String code;

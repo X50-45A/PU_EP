@@ -1,7 +1,7 @@
 package main.java.services;
 
-import main.java.consultamedica.MedicalHistory;
-import main.java.consultamedica.MedicalPrescription;
+import consultamedica.MedicalHistory;
+import consultamedica.MedicalPrescription;
 import main.java.data.HealthCardID;
 
 public interface HealthNationalService {

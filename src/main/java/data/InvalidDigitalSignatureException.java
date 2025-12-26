@@ -1,4 +1,4 @@
-package main.java.data;
+package data;
 
 class InvalidHealthCardIDException extends Exception {
     public InvalidHealthCardIDException(String message) {
@@ -18,7 +18,7 @@ class InvalidePrescripCodeException extends Exception {
     }
 }
 
-class InvalidDigitalSignatureException extends Exception {
+public class InvalidDigitalSignatureException extends Exception {
     public InvalidDigitalSignatureException(String message) {
         super(message);
     }

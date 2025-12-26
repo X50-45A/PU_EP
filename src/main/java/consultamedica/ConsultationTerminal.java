@@ -1,14 +1,16 @@
-package main.java.consultamedica;
+package consultamedica;
 
 
-import main.java.data.DigitalSignature;
-import main.java.data.HealthCardID;
-import main.java.data.ProductID;
-import main.java.services.*;
+import data.DigitalSignature;
+import data.HealthCardID;
+import data.ProductID;
 
 import java.net.ConnectException;
-import java.util.*;
-
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
+import main.java.services.HealthNationalService;
+import main.java.services.DecisionMakingAI;
 public class ConsultationTerminal {
     private HealthNationalService hns;
     private DecisionMakingAI ai;

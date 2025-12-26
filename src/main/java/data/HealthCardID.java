@@ -1,5 +1,5 @@
 
-package main.java.data;
+package data;
 /**
  * The personal identifying code in the National Health Service.
  */

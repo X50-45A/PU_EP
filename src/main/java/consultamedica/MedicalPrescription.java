@@ -1,9 +1,9 @@
-package main.java.consultamedica;
+package consultamedica;
 
-import main.java.data.DigitalSignature;
-import main.java.data.HealthCardID;
-import main.java.data.ProductID;
-import main.java.data.ePrescripCode;
+import data.DigitalSignature;
+import data.HealthCardID;
+import data.ProductID;
+import data.ePrescripCode;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -156,9 +156,6 @@ public class MedicalPrescription {
         } catch (NullPointerException e) {
             throw new IncorrectTakingGuidelinesException(
                     "Las instrucciones contienen valores null: " + e.getMessage());
-        } catch (NumberFormatException e) {
-            throw new IncorrectTakingGuidelinesException(
-                    "Error al parsear valores numéricos: " + e.getMessage());
         }
     }
 

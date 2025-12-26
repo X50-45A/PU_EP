@@ -1,6 +1,6 @@
-package main.java.consultamedica;
+package consultamedica;
 
-import main.java.data.ProductID;
+import data.ProductID;
 
 /**
  * Representa una línea de prescripción médica

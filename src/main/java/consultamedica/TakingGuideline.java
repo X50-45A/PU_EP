@@ -1,4 +1,4 @@
-package main.java.consultamedica;
+package consultamedica;
 
 /**
  * Representa las pautas completas de administración de un medicamento
