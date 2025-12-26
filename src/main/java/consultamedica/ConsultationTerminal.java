@@ -6,6 +6,7 @@ import main.java.data.HealthCardID;
 import main.java.data.ProductID;
 import main.java.services.DecisionMakingAI;
 import main.java.services.HealthNationalService;
+import main.java.services.Suggestion;
 
 import java.net.ConnectException;
 import java.util.*;
