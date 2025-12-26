@@ -1,55 +1,62 @@
-// ============================================
-// EJEMPLO 5: Test Doble con Excepción - Mock
-// ============================================
+package services.doubles;
 
-package medicalconsultation.services.doubles;
+import services.DecisionMakingAI;
+import medicalconsultation.Suggestion;
+import java.util.ArrayList;
+import java.util.List;
 
-import medicalconsultation.services.*;
-import java.net.ConnectException;
+/**
+ * Mock para DecisionMakingAI - configurable para lanzar excepciones
+ */
+public class DecisionMakingAIMock implements DecisionMakingAI {
 
-public class HealthNationalServiceMock implements HealthNationalService {
+    private boolean throwAIException = false;
+    private boolean throwBadPromptException = false;
 
-    private boolean throwConnectException = false;
-    private boolean throwHealthCardIDException = false;
-
-    public void setThrowConnectException(boolean value) {
-        this.throwConnectException = value;
+    public void setThrowAIException(boolean value) {
+        this.throwAIException = value;
     }
 
-    public void setThrowHealthCardIDException(boolean value) {
-        this.throwHealthCardIDException = value;
+    public void setThrowBadPromptException(boolean value) {
+        this.throwBadPromptException = value;
+    }
+
+    public void reset() {
+        this.throwAIException = false;
+        this.throwBadPromptException = false;
     }
 
     @Override
-    public MedicalHistory getMedicalHistory(HealthCardID cip)
-            throws ConnectException, HealthCardIDException {
-
-        if (throwConnectException) {
-            throw new ConnectException("Network error");
+    public void initDecisionMakingAI() {
+        if (throwAIException) {
+            throw new RuntimeException("AI Exception: Cannot initialize AI");
         }
-        if (throwHealthCardIDException) {
-            throw new HealthCardIDException("CIP not registered");
+    }
+
+    @Override
+    public String getSuggestions(String prompt) {
+        if (throwAIException) {
+            throw new RuntimeException("AI Exception: Error getting suggestions");
+        }
+        if (throwBadPromptException) {
+            throw new IllegalArgumentException("BadPromptException: Prompt is not clear or has inconsistencies");
+        }
+        if (prompt == null || prompt.isEmpty()) {
+            throw new IllegalArgumentException("Prompt cannot be null or empty");
         }
 
-        // Comportamiento controlado del mock
-        return new MedicalHistory(cip, 100);
+        return "I suggest: <I, 123456789012, BEFORELUNCH, 15, 1, 1, DAY, Con agua>";
     }
 
     @Override
-    public void updateMedicalHistory(MedicalHistory history)
-            throws ConnectException {
-        throw new UnsupportedOperationException("Not implemented in mock");
-    }
-
-    @Override
-    public boolean existsHealthCardID(HealthCardID cip)
-            throws ConnectException {
-        throw new UnsupportedOperationException("Not implemented in mock");
-    }
-
-    @Override
-    public void registerHealthCard(HealthCardID cip)
-            throws ConnectException {
-        throw new UnsupportedOperationException("Not implemented in mock");
+    public List<Suggestion> parseSuggest(String aiAnswer) {
+        List<Suggestion> suggestions = new ArrayList<>();
+        
+        if (aiAnswer == null || aiAnswer.isEmpty()) {
+            return suggestions;
+        }
+        
+        suggestions.add(new Suggestion("I", "123456789012", "BEFORELUNCH", "15", "1", "1", "DAY", "Con agua"));
+        return suggestions;
     }
 }
