@@ -11,7 +11,7 @@ public interface HealthNationalService {
             throws ConnectException, HealthCardIDException,
             AnyCurrentPrescriptionException;
     MedicalPrescription sendHistoryAndPrescription(HealthCardID cip,
-                                                    History hce, String illness, MedicalPrescription mPresc)
+                                                   MedicalHistory hce, String illness, MedicalPrescription mPresc)
             throws ConnectException, HealthCardIDException,
             AnyCurrentPrescriptionException, NotCompletedMedicalPrescription;
     // Internal operation
