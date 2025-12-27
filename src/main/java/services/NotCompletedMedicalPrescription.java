@@ -1,4 +1,4 @@
-package main.java.services;
+package services;
 
 /**
  * Excepción lanzada cuando la prescripción médica está incompleta

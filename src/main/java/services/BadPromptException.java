@@ -1,4 +1,4 @@
-package main.java.services;
+package services;
 
 /**
  * Excepción lanzada cuando el prompt de la IA no es claro o tiene inconsistencias

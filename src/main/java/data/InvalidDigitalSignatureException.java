@@ -6,12 +6,6 @@ class InvalidHealthCardIDException extends Exception {
     }
 }
 
-class InvalidProductIDException extends Exception {
-    public InvalidProductIDException(String message) {
-        super(message);
-    }
-}
-
 class InvalidePrescripCodeException extends Exception {
     public InvalidePrescripCodeException(String message) {
         super(message);

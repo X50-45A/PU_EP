@@ -1,4 +1,4 @@
-package main.java.services;
+package services;
 
 /**
  * Excepción lanzada cuando no existe prescripción activa para esa enfermedad

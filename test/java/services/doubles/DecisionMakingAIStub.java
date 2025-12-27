@@ -1,9 +1,8 @@
-package services.doubles;
+package java.services.doubles;
 
 import main.java.services.BadPromptException;
 import main.java.services.Suggestion;
 import services.DecisionMakingAI;
-import medicalconsultation.Suggestion;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +12,7 @@ import java.util.List;
 public class DecisionMakingAIStub implements DecisionMakingAI {
 
     @Override
-    public void initDecisionMakingAI() throws AIException {
+    public void initDecisionMakingAI() throws main.java.services.AIException {
         // Simula inicialización exitosa
     }
 

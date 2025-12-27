@@ -1,5 +1,6 @@
-package medicalconsultation;
+package java.medicalconsultation;
 
+import consultamedica.ConsultationTerminal;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,17 +15,17 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ConsultationTerminalTest {
 
     private ConsultationTerminal terminal;
-    private HealthNationalServiceStub healthServiceStub;
-    private HealthNationalServiceMock healthServiceMock;
+    private services.doubles.HealthNationalServiceStub healthServiceStub;
+    private services.doubles.HealthNationalServiceMock healthServiceMock;
     private HealthCardID validCIP;
     private ProductID medicine1;
     private String[] validGuidelines;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws InvalidProductIDException {
         terminal = new ConsultationTerminal();
-        healthServiceStub = new HealthNationalServiceStub();
-        healthServiceMock = new HealthNationalServiceMock();
+        healthServiceStub = new services.doubles.HealthNationalServiceStub();
+        healthServiceMock = new services.doubles.HealthNationalServiceMock();
 
         validCIP = new HealthCardID("1234567890ABCDEF");
         medicine1 = new ProductID("123456789012");

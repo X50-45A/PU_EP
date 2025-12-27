@@ -13,6 +13,9 @@ import services.DecisionMakingAI;
 import main.java.services.HealthCardIDException;
 import main.java.services.AnyCurrentPrescriptionException;
 import main.java.services.NotCompletedMedicalPrescription;
+import main.java.services.Suggestion;
+import main.java.services.BadPromptException;
+import main.java.services.AIException;
 
 public class ConsultationTerminal {
     private HealthNationalService hns;

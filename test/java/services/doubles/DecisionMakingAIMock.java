@@ -29,7 +29,7 @@ public class DecisionMakingAIMock implements DecisionMakingAI {
     }
 
     @Override
-    public void initDecisionMakingAI() throws AIException {
+    public void initDecisionMakingAI() throws main.java.services.AIException {
         if (throwAIException) {
             throw new RuntimeException("AI Exception: Cannot initialize AI");
         }
