@@ -1,4 +1,4 @@
-package services.doubles;
+package java.services.doubles;
 
 import main.java.services.BadPromptException;
 import main.java.services.Suggestion;
@@ -6,6 +6,7 @@ import services.DecisionMakingAI;
 import medicalconsultation.Suggestion;
 import java.util.ArrayList;
 import java.util.List;
+import main.java.services.AIException;
 
 /**
  * Mock para DecisionMakingAI - configurable para lanzar excepciones
@@ -29,7 +30,7 @@ public class DecisionMakingAIMock implements DecisionMakingAI {
     }
 
     @Override
-    public void initDecisionMakingAI() throws main.java.services.AIException {
+    public void initDecisionMakingAI() throws AIException {
         if (throwAIException) {
             throw new RuntimeException("AI Exception: Cannot initialize AI");
         }
