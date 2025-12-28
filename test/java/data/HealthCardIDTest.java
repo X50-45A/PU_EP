@@ -1,5 +1,8 @@
 package java.data;
+import data.HealthCardID;
 import org.junit.jupiter.api.Test;
+import services.HealthCardIDException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class HealthCardIDTest {

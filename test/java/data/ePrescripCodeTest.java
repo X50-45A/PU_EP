@@ -1,5 +1,7 @@
 package java.data;
 
+import data.InvalidePrescripCodeException;
+import data.ePrescripCode;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,7 +11,7 @@ public class ePrescripCodeTest {
 
     @Test
     @DisplayName("Constructor accepts valid alphanumeric code")
-    void testConstructorWithValidCode() {
+    void testConstructorWithValidCode() throws InvalidePrescripCodeException {
         String validCode = "PRESC123456";
         ePrescripCode epc = new ePrescripCode(validCode);
         assertEquals(validCode, epc.getePrescripCode());

@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.Random;
 import services.HealthNationalService;
 import services.DecisionMakingAI;
-import main.java.services.HealthCardIDException;
-import main.java.services.AnyCurrentPrescriptionException;
-import main.java.services.NotCompletedMedicalPrescription;
-import main.java.services.Suggestion;
-import main.java.services.BadPromptException;
-import main.java.services.AIException;
+import services.HealthCardIDException;
+import services.AnyCurrentPrescriptionException;
+import services.NotCompletedMedicalPrescription;
+import services.Suggestion;
+import services.BadPromptException;
+import services.AIException;
 
 public class ConsultationTerminal {
     private HealthNationalService hns;
@@ -228,7 +228,7 @@ public class ConsultationTerminal {
 
         try {
             lastAIResponse = ai.getSuggestions(prompt);
-        } catch (main.java.services.BadPromptException e) {
+        } catch (BadPromptException e) {
             throw new RuntimeException(e);
         }
         return lastAIResponse;
