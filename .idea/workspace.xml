@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="aef05949-8270-411e-a380-5e4a23585425" name="Changes" comment="modificaciones en los tests">
+      <change beforePath="$PROJECT_DIR$/test/java/data/ePrescripCodeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/java/data/ePrescribeCodeTest.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;X50-45A&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/X50-45A/PU_EP.git&quot;,
+    &quot;accountId&quot;: &quot;670fb11a-e520-421c-bb8a-577a43d59ea2&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="37OOFV8TgDy8dK3uzb5jys5WLpG" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "JUnit.PosologyTest.executor": "Run",
+    "JUnit.ePrescribeCodeTest.executor": "Run",
+    "Maven.Unknown [test].executor": "Run",
+    "Maven.Unknown [verify].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "fixes",
+    "kotlin-language-version-configured": "true",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "settings.sync",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="services" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.ePrescribeCodeTest">
+    <configuration name="PosologyTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="PU_EP" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="java.medicalconsultation.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="java.medicalconsultation" />
+      <option name="MAIN_CLASS_NAME" value="java.medicalconsultation.PosologyTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ePrescribeCodeTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="PU_EP" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="java.data.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="java.data" />
+      <option name="MAIN_CLASS_NAME" value="java.data.ePrescribeCodeTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.ePrescribeCodeTest" />
+        <item itemvalue="JUnit.PosologyTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.138" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.29346.138" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="aef05949-8270-411e-a380-5e4a23585425" name="Changes" comment="" />
+      <created>1766770548748</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1766770548748</updated>
+      <workItem from="1766770550112" duration="1626000" />
+      <workItem from="1766772189203" duration="201000" />
+      <workItem from="1766863517612" duration="129000" />
+      <workItem from="1766864340461" duration="521000" />
+      <workItem from="1766867496289" duration="748000" />
+      <workItem from="1766880081978" duration="17000" />
+      <workItem from="1766913264458" duration="1152000" />
+    </task>
+    <task id="LOCAL-00001" summary="fixeado muchaaaaaaaaaaas cosas, alguien modifico la estructura del proyecto y por eso fallavan los imports">
+      <option name="closed" value="true" />
+      <created>1766771269190</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1766771269194</updated>
+    </task>
+    <task id="LOCAL-00002" summary="fixes y mas fixes">
+      <option name="closed" value="true" />
+      <created>1766771944372</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1766771944372</updated>
+    </task>
+    <task id="LOCAL-00003" summary="fixes y mas fixes">
+      <option name="closed" value="true" />
+      <created>1766867704820</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1766867704820</updated>
+    </task>
+    <task id="LOCAL-00004" summary="fixes y mas cosas fixeadas">
+      <option name="closed" value="true" />
+      <created>1766868234262</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1766868234262</updated>
+    </task>
+    <task id="LOCAL-00005" summary="cambios en el maven haciendo que los tests funcionen y tiren, solo es necessario adaptar todos los metodos de los tests a los metodos de la implementacion.">
+      <option name="closed" value="true" />
+      <created>1766913636897</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1766913636897</updated>
+    </task>
+    <task id="LOCAL-00006" summary="modificaciones en los tests">
+      <option name="closed" value="true" />
+      <created>1766914082121</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1766914082121</updated>
+    </task>
+    <task id="LOCAL-00007" summary="modificaciones en los tests">
+      <option name="closed" value="true" />
+      <created>1766914119945</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1766914119945</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="fixeado muchaaaaaaaaaaas cosas, alguien modifico la estructura del proyecto y por eso fallavan los imports" />
+    <MESSAGE value="fixes y mas fixes" />
+    <MESSAGE value="fixes y mas cosas fixeadas" />
+    <MESSAGE value="cambios en el maven haciendo que los tests funcionen y tiren, solo es necessario adaptar todos los metodos de los tests a los metodos de la implementacion." />
+    <MESSAGE value="modificaciones en los tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="modificaciones en los tests" />
+  </component>
+</project>
