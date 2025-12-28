@@ -283,8 +283,13 @@ public class MedicalPrescription {
      * @param prodID Identificador del producto
      * @return La línea de prescripción o null si no existe
      */
-    public MedicalPrescriptionLine getLine(ProductID prodID) {
-        return prescriptionLines.get(prodID);
+    public MedicalPrescriptionLine getLine(ProductID prodID) throws ProductNotInPrescriptionException  {
+        MedicalPrescriptionLine line = prescriptionLines.get(prodID);
+        if (line == null) {
+            throw  new consultamedica.ProductNotInPrescriptionException(
+                    "Product " +  prodID.getCode() + " no encontrado");
+        }
+        return line;
     }
 
     // ============= GETTERS =============
