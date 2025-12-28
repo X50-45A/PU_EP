@@ -1,6 +1,7 @@
 package java.data;
 
 import data.DigitalSignature;
+import data.InvalidDigitalSignatureException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,7 +11,7 @@ public class DigitalSignatureTest {
 
     @Test
     @DisplayName("Constructor accepts valid non-empty byte array")
-    void testConstructorWithValidByteArray() {
+    void testConstructorWithValidByteArray() throws InvalidDigitalSignatureException {
         byte[] validSignature = new byte[]{1, 2, 3, 4, 5};
         DigitalSignature ds = new DigitalSignature(validSignature);
         assertNotNull(ds.getSignature());
@@ -44,7 +45,7 @@ public class DigitalSignatureTest {
 
     @Test
     @DisplayName("equals returns false for different values")
-    void testEqualsWithDifferentValue() {
+    void testEqualsWithDifferentValue() throws InvalidDigitalSignatureException {
         DigitalSignature ds1 = new DigitalSignature(new byte[]{1, 2, 3, 4, 5});
         DigitalSignature ds2 = new DigitalSignature(new byte[]{5, 4, 3, 2, 1});
         assertNotEquals(ds1, ds2);
@@ -52,7 +53,7 @@ public class DigitalSignatureTest {
 
     @Test
     @DisplayName("hashCode is consistent for same value")
-    void testHashCodeConsistency() {
+    void testHashCodeConsistency() throws InvalidDigitalSignatureException {
         byte[] sig = new byte[]{1, 2, 3, 4, 5};
         DigitalSignature ds1 = new DigitalSignature(sig);
         DigitalSignature ds2 = new DigitalSignature(sig.clone());
