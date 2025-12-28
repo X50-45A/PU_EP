@@ -36,7 +36,7 @@ public class DigitalSignatureTest {
 
     @Test
     @DisplayName("equals returns true for same value")
-    void testEqualsWithSameValue() {
+    void testEqualsWithSameValue() throws InvalidDigitalSignatureException {
         byte[] sig = new byte[]{1, 2, 3, 4, 5};
         DigitalSignature ds1 = new DigitalSignature(sig);
         DigitalSignature ds2 = new DigitalSignature(sig.clone());

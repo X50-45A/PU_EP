@@ -1,8 +1,12 @@
 package java.services.doubles;
 
-import main.java.services.BadPromptException;
-import main.java.services.Suggestion;
+
+import data.InvalidProductIDException;
+import services.AIException;
+import services.BadPromptException;
 import services.DecisionMakingAI;
+import services.Suggestion;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +16,7 @@ import java.util.List;
 public class DecisionMakingAIStub implements DecisionMakingAI {
 
     @Override
-    public void initDecisionMakingAI() throws main.java.services.AIException {
+    public void initDecisionMakingAI() throws AIException {
         // Simula inicialización exitosa
     }
 
@@ -28,7 +32,7 @@ public class DecisionMakingAIStub implements DecisionMakingAI {
     }
 
     @Override
-    public List<Suggestion> parseSuggest(String aiAnswer) {
+    public List<Suggestion> parseSuggest(String aiAnswer) throws InvalidProductIDException {
         List<Suggestion> suggestions = new ArrayList<>();
         
         if (aiAnswer == null || aiAnswer.isEmpty()) {

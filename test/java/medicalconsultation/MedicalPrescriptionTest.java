@@ -38,7 +38,7 @@ public class MedicalPrescriptionTest {
         @DisplayName("Constructor accepts valid parameters")
         void testConstructorWithValidParameters() {
             assertNotNull(prescription);
-            assertEquals(cip, prescription.getHealthCardID());
+            assertEquals(cip, prescription.getCip());
             assertEquals(100, prescription.getMembShipNumb());
             assertEquals("Hipertensión", prescription.getIllness());
         }
@@ -97,7 +97,7 @@ public class MedicalPrescriptionTest {
         void testAddLineAndRetrieve() throws ProductAlreadyInPrescriptionException, IncorrectTakingGuidelinesException {
             prescription.addLine(product1, validGuidelines);
             assertDoesNotThrow(() -> {
-                prescription.getPrescriptionLine(product1);
+                prescription.containsProduct(product1);
             });
         }
 
@@ -108,8 +108,8 @@ public class MedicalPrescriptionTest {
             prescription.addLine(product2, validGuidelines);
             
             assertDoesNotThrow(() -> {
-                prescription.getPrescriptionLine(product1);
-                prescription.getPrescriptionLine(product2);
+                prescription.containsProduct(product1);
+                prescription.containsProduct(product2);
             });
         }
     }
@@ -175,18 +175,29 @@ public class MedicalPrescriptionTest {
         @DisplayName("modifyDoseInLine updates dose correctly")
         void testModifyDoseInExistingLine() throws ProductNotInPrescriptionException {
             prescription.modifyDoseInLine(product1, 2.0f);
-            assertEquals(2.0f, prescription.getPrescriptionLine(product1)
-                    .getTakingGuideline().getPosology().getDose());
+
+            // Obtener la línea y verificar la dosis
+            MedicalPrescriptionLine line = prescription.getLine(product1);
+            assertNotNull(line);
+            assertEquals(2.0f, line.getGuidelines().getPosology().getDose());
         }
 
         @Test
         @DisplayName("modifyDoseInLine does not affect other lines")
-        void testModifyDoseDoesNotAffectOtherLines() throws ProductAlreadyInPrescriptionException, IncorrectTakingGuidelinesException, ProductNotInPrescriptionException {
+        void testModifyDoseDoesNotAffectOtherLines() throws ProductAlreadyInPrescriptionException,
+                IncorrectTakingGuidelinesException, ProductNotInPrescriptionException {
             prescription.addLine(product2, validGuidelines);
             prescription.modifyDoseInLine(product1, 5.0f);
-            
-            assertEquals(1.0f, prescription.getPrescriptionLine(product2)
-                    .getTakingGuideline().getPosology().getDose());
+
+            // Verificar que product1 cambió
+            MedicalPrescriptionLine line1 = prescription.getLine(product1);
+            assertNotNull(line1);
+            assertEquals(5.0f, line1.getGuidelines().getPosology().getDose());
+
+            // Verificar que product2 NO cambió
+            MedicalPrescriptionLine line2 = prescription.getLine(product2);
+            assertNotNull(line2);
+            assertEquals(1.0f, line2.getGuidelines().getPosology().getDose());
         }
 
         @Test
@@ -194,9 +205,20 @@ public class MedicalPrescriptionTest {
         void testModifyDoseMultipleTimes() throws ProductNotInPrescriptionException {
             prescription.modifyDoseInLine(product1, 2.0f);
             prescription.modifyDoseInLine(product1, 3.0f);
-            
-            assertEquals(3.0f, prescription.getPrescriptionLine(product1)
-                    .getTakingGuideline().getPosology().getDose());
+
+            MedicalPrescriptionLine line = prescription.getLine(product1);
+            assertNotNull(line);
+            assertEquals(3.0f, line.getGuidelines().getPosology().getDose());
+        }
+
+        @Test
+        @DisplayName("modifyDoseInLine with decimal values")
+        void testModifyDoseWithDecimalValues() throws ProductNotInPrescriptionException {
+            prescription.modifyDoseInLine(product1, 2.5f);
+
+            MedicalPrescriptionLine line = prescription.getLine(product1);
+            assertNotNull(line);
+            assertEquals(2.5f, line.getGuidelines().getPosology().getDose(), 0.001);
         }
     }
 

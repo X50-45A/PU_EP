@@ -1,8 +1,6 @@
 package consultamedica;
 
-import data.DigitalSignature;
-import data.HealthCardID;
-import data.ProductID;
+import data.*;
 
 import java.net.ConnectException;
 import java.util.Date;
@@ -52,7 +50,7 @@ public class ConsultationTerminal {
 
     public void initRevision(HealthCardID cip, String illness)
             throws ConnectException, HealthCardIDException,
-            AnyCurrentPrescriptionException {
+            AnyCurrentPrescriptionException, IncorrectParametersException {
         if (cip == null || illness == null || illness.trim().isEmpty()) {
             throw new IllegalArgumentException("Parámetros inválidos");
         }
@@ -194,7 +192,7 @@ public class ConsultationTerminal {
     public MedicalPrescription sendHistoryAndPrescription()
             throws ConnectException, HealthCardIDException,
             AnyCurrentPrescriptionException,
-            NotCompletedMedicalPrescription, ProceduralException {
+            NotCompletedMedicalPrescription, ProceduralException, InvalidePrescripCodeException {
         if (!signatureStamped) {
             throw new ProceduralException("Debe estampar la firma primero");
         }
@@ -234,7 +232,7 @@ public class ConsultationTerminal {
         return lastAIResponse;
     }
 
-    public List<Suggestion> extractGuidelinesFromSugg() throws ProceduralException {
+    public List<Suggestion> extractGuidelinesFromSugg() throws ProceduralException, InvalidProductIDException {
         if (lastAIResponse == null) {
             throw new ProceduralException(
                     "Debe obtener sugerencias de la IA primero");

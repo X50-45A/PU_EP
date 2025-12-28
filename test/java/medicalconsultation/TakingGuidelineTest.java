@@ -1,5 +1,7 @@
 package java.medicalconsultation;
 
+import consultamedica.FqUnit;
+import consultamedica.Posology;
 import consultamedica.TakingGuideline;
 import consultamedica.dayMoment;
 import org.junit.jupiter.api.Test;
@@ -21,7 +23,7 @@ public class TakingGuidelineTest {
             TakingGuideline tg = new TakingGuideline(
                 dayMoment.BEFORELUNCH, 15.0f, 1.0f, 1.0f, FqUnit.DAY, "Con agua"
             );
-            assertEquals(dayMoment.BEFORELUNCH, tg.getDayMoment());
+            assertEquals(dayMoment.BEFORELUNCH, tg.getdMoment());
             assertEquals(15.0f, tg.getDuration());
             assertEquals("Con agua", tg.getInstructions());
         }
@@ -81,7 +83,7 @@ public class TakingGuidelineTest {
         @Test
         @DisplayName("getDayMoment returns correct value")
         void testGetDayMoment() {
-            assertEquals(dayMoment.BEFORELUNCH, tg.getDayMoment());
+            assertEquals(dayMoment.BEFORELUNCH, tg.getdMoment());
         }
 
         @Test
@@ -118,15 +120,15 @@ public class TakingGuidelineTest {
         @Test
         @DisplayName("setDayMoment updates value correctly")
         void testSetDayMoment() {
-            tg.setDayMoment(dayMoment.AFTERLUNCH);
-            assertEquals(dayMoment.AFTERLUNCH, tg.getDayMoment());
+            tg.setdMoment(dayMoment.AFTERLUNCH);
+            assertEquals(dayMoment.AFTERLUNCH, tg.getdMoment());
         }
 
         @Test
         @DisplayName("setDayMoment throws exception when null")
         void testSetDayMomentNull() {
             assertThrows(Exception.class, () -> {
-                tg.setDayMoment(null);
+                tg.setdMoment(null);
             });
         }
 

@@ -129,7 +129,7 @@ public class Suggestion {
             this.dose = guidelines[2] != null ? guidelines[2].trim() : "";
             this.frequency = guidelines[3] != null ? guidelines[3].trim() : "";
             this.frequencyUnit = guidelines[4] != null ? guidelines[4].trim() : "";
-            this.instructions = guidelines.length > 5 && guidelines[5] != null ? guidelines[5].trim() : "";
+            this.instructions = guidelines[5] != null ? guidelines[5].trim() : "";
         } else {
             this.dayMoment = "";
             this.duration = "";

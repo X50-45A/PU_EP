@@ -28,7 +28,7 @@ public class MedicalHistoryTest {
         void testConstructorWithValidParameters() throws IncorrectParametersException {
             MedicalHistory mh = new MedicalHistory(validCIP, 100);
             assertNotNull(mh);
-            assertEquals(validCIP, mh.getHealthCardID());
+            assertEquals(validCIP, mh.getCip().getPersonalID());
             assertEquals(100, mh.getMembShipNumb());
         }
 
@@ -152,7 +152,7 @@ public class MedicalHistoryTest {
         @Test
         @DisplayName("getHealthCardID returns correct CIP")
         void testGetHealthCardID() {
-            assertEquals(validCIP, mh.getHealthCardID());
+            assertEquals(validCIP, mh.getCip().getPersonalID());
         }
 
         @Test

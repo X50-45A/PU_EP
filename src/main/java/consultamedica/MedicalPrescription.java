@@ -234,7 +234,7 @@ public class MedicalPrescription {
         // Verificar que el producto existe
         if (!prescriptionLines.containsKey(prodID)) {
             throw new ProductNotInPrescriptionException(
-                    "El producto " + prodID.getCode() + " no está en la prescripción");
+                    "El producto " + prodID + " no está en la prescripción");
         }
 
         // Eliminar la línea

@@ -7,6 +7,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import data.*;
+
+
+import java.services.doubles.DecisionMakingAIMock;
+import java.services.doubles.DecisionMakingAIStub;
 import java.services.doubles.HealthNationalServiceMock;
 import java.services.doubles.HealthNationalServiceStub;
 import java.util.Date;
@@ -21,23 +25,33 @@ public class ConsultationTerminalTest {
     private HealthNationalServiceMock healthServiceMock;
     private HealthCardID validCIP;
     private ProductID medicine1;
+    private ProductID medicine2;
     private String[] validGuidelines;
+    private Date futureDate;
 
     @BeforeEach
-    void setUp() throws InvalidProductIDException {
+    void setUp() throws InvalidProductIDException, InvalidHealthCardIDException {
         terminal = new ConsultationTerminal();
         healthServiceStub = new HealthNationalServiceStub();
         healthServiceMock = new HealthNationalServiceMock();
 
         validCIP = new HealthCardID("1234567890ABCDEF");
         medicine1 = new ProductID("123456789012");
+        medicine2 = new ProductID("987654321098");
 
         validGuidelines = new String[]{
-            "BEFORELUNCH", "15", "1", "1", "DAY", "Con agua"
+                "BEFORELUNCH", "15", "1", "1", "DAY", "Con agua", ""
         };
+
+        // Fecha futura (15 días)
+        futureDate = new Date(System.currentTimeMillis() +
+                (long) 15 * 24 * 60 * 60 * 1000);
     }
 
+    // ===================================================================
     // FLUJO EXITOSO COMPLETO
+    // ===================================================================
+
     @Nested
     @DisplayName("Successful Complete Flow")
     class SuccessfulFlowTests {
@@ -73,25 +87,32 @@ public class ConsultationTerminalTest {
             });
 
             // 6. Fijar fecha de finalización
-            Date futureDate = new Date(System.currentTimeMillis() +
-                    (long) 15 * 24 * 60 * 60 * 1000);
             assertDoesNotThrow(() -> {
                 terminal.enterTreatmentEndingDate(futureDate);
             });
 
-            // 7. Estampar firma
+            // 7. Finalizar edición
+            assertDoesNotThrow(() -> {
+                terminal.finishMedicalPrescriptionEdition();
+            });
+
+            // 8. Estampar firma
             assertDoesNotThrow(() -> {
                 terminal.stampeeSignature();
             });
 
-            // 8. Enviar
+            // 9. Enviar
             assertDoesNotThrow(() -> {
-                terminal.sendHistoryAndPrescription();
+                MedicalPrescription result = terminal.sendHistoryAndPrescription();
+                assertNotNull(result);
             });
         }
     }
-    
-// EXCEPCIONES EN initRevision
+
+    // ===================================================================
+    // EXCEPCIONES EN initRevision
+    // ===================================================================
+
     @Nested
     @DisplayName("initRevision Exception Cases")
     class InitRevisionExceptionTests {
@@ -117,9 +138,23 @@ public class ConsultationTerminalTest {
                 terminal.initRevision(validCIP, "Hipertensión");
             });
         }
+
+        @Test
+        @DisplayName("initRevision throws AnyCurrentPrescriptionException")
+        void testInitRevisionAnyCurrentPrescriptionException() {
+            terminal.setHealthNationalService(healthServiceMock);
+            healthServiceMock.setThrowAnyCurrentPrescriptionException(true);
+
+            assertThrows(Exception.class, () -> {
+                terminal.initRevision(validCIP, "Hipertensión");
+            });
+        }
     }
 
+    // ===================================================================
     // EXCEPCIONES EN enterMedicineWithGuidelines
+    // ===================================================================
+
     @Nested
     @DisplayName("enterMedicineWithGuidelines Exception Cases")
     class AddMedicineExceptionTests {
@@ -128,21 +163,21 @@ public class ConsultationTerminalTest {
         @DisplayName("enterMedicineWithGuidelines throws ProductAlreadyInPrescriptionException")
         void testAddMedicineDuplicate() {
             terminal.setHealthNationalService(healthServiceStub);
-            
+
             assertDoesNotThrow(() -> {
                 terminal.initRevision(validCIP, "Hipertensión");
                 terminal.initMedicalPrescriptionEdition();
                 terminal.enterMedicineWithGuidelines(medicine1, validGuidelines);
             });
 
-            // Intenta añadir de nuevo
+            // Intenta añadir de nuevo el mismo medicamento
             assertThrows(Exception.class, () -> {
                 terminal.enterMedicineWithGuidelines(medicine1, validGuidelines);
             });
         }
 
         @Test
-        @DisplayName("enterMedicineWithGuidelines throws IncorrectTakingGuidelinesException")
+        @DisplayName("enterMedicineWithGuidelines throws IncorrectTakingGuidelinesException (array incompleto)")
         void testAddMedicineIncompleteGuidelines() {
             terminal.setHealthNationalService(healthServiceStub);
 
@@ -157,9 +192,31 @@ public class ConsultationTerminalTest {
                 terminal.enterMedicineWithGuidelines(medicine1, incompleteGuidelines);
             });
         }
+
+        @Test
+        @DisplayName("enterMedicineWithGuidelines throws IncorrectTakingGuidelinesException (valores inválidos)")
+        void testAddMedicineInvalidGuidelines() {
+            terminal.setHealthNationalService(healthServiceStub);
+
+            String[] invalidGuidelines = new String[]{
+                    "INVALID_MOMENT", "15", "1", "1", "DAY", "Con agua", ""
+            };
+
+            assertDoesNotThrow(() -> {
+                terminal.initRevision(validCIP, "Hipertensión");
+                terminal.initMedicalPrescriptionEdition();
+            });
+
+            assertThrows(Exception.class, () -> {
+                terminal.enterMedicineWithGuidelines(medicine1, invalidGuidelines);
+            });
+        }
     }
 
+    // ===================================================================
     // EXCEPCIONES EN modifyDoseInLine
+    // ===================================================================
+
     @Nested
     @DisplayName("modifyDoseInLine Exception Cases")
     class ModifyDoseExceptionTests {
@@ -182,7 +239,10 @@ public class ConsultationTerminalTest {
         }
     }
 
+    // ===================================================================
     // EXCEPCIONES EN removeLine
+    // ===================================================================
+
     @Nested
     @DisplayName("removeLine Exception Cases")
     class RemoveLineExceptionTests {
@@ -205,37 +265,54 @@ public class ConsultationTerminalTest {
         }
     }
 
-    // PRECONDICIONES (ProceduralException)
+    // ===================================================================
+    // EXCEPCIONES EN enterTreatmentEndingDate
+    // ===================================================================
+
     @Nested
-    @DisplayName("Precondition (ProceduralException) Tests")
-    class PreconditionTests {
+    @DisplayName("enterTreatmentEndingDate Exception Cases")
+    class EnterTreatmentEndingDateTests {
 
         @Test
-        @DisplayName("Calling enterMedicineWithGuidelines before initRevision throws exception")
-        void testMedicineWithoutInitRevision() {
+        @DisplayName("enterTreatmentEndingDate throws IncorrectEndingDateException (fecha pasada)")
+        void testEndingDateInPast() {
             terminal.setHealthNationalService(healthServiceStub);
 
-            assertThrows(Exception.class, () -> {
-                terminal.enterMedicineWithGuidelines(medicine1, validGuidelines);
-            });
-        }
-
-        @Test
-        @DisplayName("Calling stampeeSignature before completing edition throws exception")
-        void testSignatureBeforeCompletion() {
-            terminal.setHealthNationalService(healthServiceStub);
+            Date pastDate = new Date(System.currentTimeMillis() -
+                    (long) 10 * 24 * 60 * 60 * 1000);
 
             assertDoesNotThrow(() -> {
                 terminal.initRevision(validCIP, "Hipertensión");
+                terminal.initMedicalPrescriptionEdition();
+                terminal.enterMedicineWithGuidelines(medicine1, validGuidelines);
             });
 
             assertThrows(Exception.class, () -> {
-                terminal.stampeeSignature();
+                terminal.enterTreatmentEndingDate(pastDate);
+            });
+        }
+
+        @Test
+        @DisplayName("enterTreatmentEndingDate throws IncorrectEndingDateException (fecha muy cercana)")
+        void testEndingDateTooSoon() {
+            terminal.setHealthNationalService(healthServiceStub);
+
+            // Fecha en 1 hora
+            Date tooSoonDate = new Date(System.currentTimeMillis() + 3600000);
+
+            assertDoesNotThrow(() -> {
+                terminal.initRevision(validCIP, "Hipertensión");
+                terminal.initMedicalPrescriptionEdition();
+                terminal.enterMedicineWithGuidelines(medicine1, validGuidelines);
+            });
+
+            assertThrows(Exception.class, () -> {
+                terminal.enterTreatmentEndingDate(tooSoonDate);
             });
         }
     }
-}
-// ===================================================================
+
+    // ===================================================================
     // PRECONDICIONES (ProceduralException - Orden de eventos)
     // ===================================================================
 
@@ -244,7 +321,7 @@ public class ConsultationTerminalTest {
     class ProcedureConstraintTests {
 
         @Test
-        @DisplayName("enterMedicineWithGuidelines without initRevision throws exception")
+        @DisplayName("enterMedicineWithGuidelines without initRevision throws ProceduralException")
         void testMedicineWithoutInitRevision() {
             terminal.setHealthNationalService(healthServiceStub);
 
@@ -254,7 +331,7 @@ public class ConsultationTerminalTest {
         }
 
         @Test
-        @DisplayName("modifyDoseInLine without initMedicalPrescriptionEdition throws exception")
+        @DisplayName("modifyDoseInLine without initMedicalPrescriptionEdition throws ProceduralException")
         void testModifyWithoutInitEdition() {
             terminal.setHealthNationalService(healthServiceStub);
 
@@ -268,7 +345,7 @@ public class ConsultationTerminalTest {
         }
 
         @Test
-        @DisplayName("removeLine without initMedicalPrescriptionEdition throws exception")
+        @DisplayName("removeLine without initMedicalPrescriptionEdition throws ProceduralException")
         void testRemoveWithoutInitEdition() {
             terminal.setHealthNationalService(healthServiceStub);
 
@@ -282,23 +359,8 @@ public class ConsultationTerminalTest {
         }
 
         @Test
-        @DisplayName("stampeeSignature without completing prescription edition throws exception")
-        void testSignatureBeforeCompletion() {
-            terminal.setHealthNationalService(healthServiceStub);
-
-            assertDoesNotThrow(() -> {
-                terminal.initRevision(validCIP, "Hipertensión");
-                terminal.initMedicalPrescriptionEdition();
-            });
-
-            assertThrows(Exception.class, () -> {
-                terminal.stampeeSignature();
-            });
-        }
-
-        @Test
-        @DisplayName("sendHistoryAndPrescription without stampeeSignature throws exception")
-        void testSendWithoutSignature() {
+        @DisplayName("stampeeSignature without finishing prescription edition throws ProceduralException")
+        void testSignatureBeforeFinishEdition() {
             terminal.setHealthNationalService(healthServiceStub);
 
             assertDoesNotThrow(() -> {
@@ -309,12 +371,30 @@ public class ConsultationTerminalTest {
             });
 
             assertThrows(Exception.class, () -> {
+                terminal.stampeeSignature();
+            });
+        }
+
+        @Test
+        @DisplayName("sendHistoryAndPrescription without stampeeSignature throws ProceduralException")
+        void testSendWithoutSignature() {
+            terminal.setHealthNationalService(healthServiceStub);
+
+            assertDoesNotThrow(() -> {
+                terminal.initRevision(validCIP, "Hipertensión");
+                terminal.initMedicalPrescriptionEdition();
+                terminal.enterMedicineWithGuidelines(medicine1, validGuidelines);
+                terminal.enterTreatmentEndingDate(futureDate);
+                terminal.finishMedicalPrescriptionEdition();
+            });
+
+            assertThrows(Exception.class, () -> {
                 terminal.sendHistoryAndPrescription();
             });
         }
 
         @Test
-        @DisplayName("enterTreatmentEndingDate without initMedicalPrescriptionEdition throws exception")
+        @DisplayName("enterTreatmentEndingDate without initMedicalPrescriptionEdition throws ProceduralException")
         void testEndingDateWithoutInitEdition() {
             terminal.setHealthNationalService(healthServiceStub);
 
@@ -328,12 +408,22 @@ public class ConsultationTerminalTest {
         }
 
         @Test
-        @DisplayName("enterMedicalAssessmentInHistory without initRevision throws exception")
+        @DisplayName("enterMedicalAssessmentInHistory without initRevision throws ProceduralException")
         void testAssessmentWithoutInitRevision() {
             terminal.setHealthNationalService(healthServiceStub);
 
             assertThrows(Exception.class, () -> {
                 terminal.enterMedicalAssessmentInHistory("Paciente mejora");
+            });
+        }
+
+        @Test
+        @DisplayName("initMedicalPrescriptionEdition without initRevision throws ProceduralException")
+        void testInitEditionWithoutRevision() {
+            terminal.setHealthNationalService(healthServiceStub);
+
+            assertThrows(Exception.class, () -> {
+                terminal.initMedicalPrescriptionEdition();
             });
         }
     }
@@ -346,75 +436,74 @@ public class ConsultationTerminalTest {
     @DisplayName("Edge Cases and Special Scenarios")
     class EdgeCasesTests {
 
-        @BeforeEach
-        void setUp() {
-            terminal.setHealthNationalService(healthServiceStub);
-        }
-
         @Test
         @DisplayName("Add, modify, remove same product in sequence")
         void testAddModifyRemoveSequence() {
+            terminal.setHealthNationalService(healthServiceStub);
+
             assertDoesNotThrow(() -> {
                 terminal.initRevision(validCIP, "Hipertensión");
                 terminal.initMedicalPrescriptionEdition();
-                
+
                 // Add
                 terminal.enterMedicineWithGuidelines(medicine1, validGuidelines);
-                
+
                 // Modify
                 terminal.modifyDoseInLine(medicine1, 2.0f);
-                
+
                 // Remove
                 terminal.removeLine(medicine1);
-            });
-        }
 
-        @Test
-        @DisplayName("Modify same dose multiple times")
-        void testModifySameDoseMultipleTimes() {
-            assertDoesNotThrow(() -> {
-                terminal.initRevision(validCIP, "Hipertensión");
-                terminal.initMedicalPrescriptionEdition();
-                terminal.enterMedicineWithGuidelines(medicine1, validGuidelines);
-                
-                terminal.modifyDoseInLine(medicine1, 2.0f);
-                terminal.modifyDoseInLine(medicine1, 3.0f);
-                terminal.modifyDoseInLine(medicine1, 4.0f);
-            });
-        }
-
-        @Test
-        @DisplayName("Flow with multiple medications")
-        void testMultipleMedicationsFlow() {
-            assertDoesNotThrow(() -> {
-                terminal.initRevision(validCIP, "Hipertensión");
-                terminal.initMedicalPrescriptionEdition();
-                
-                terminal.enterMedicineWithGuidelines(medicine1, validGuidelines);
+                // Añadir otro para completar (no puede estar vacía)
                 terminal.enterMedicineWithGuidelines(medicine2, validGuidelines);
-                
-                terminal.modifyDoseInLine(medicine1, 2.0f);
-                terminal.modifyDoseInLine(medicine2, 3.0f);
-                
-                terminal.removeLine(medicine1);
-                
+
                 terminal.enterTreatmentEndingDate(futureDate);
+                terminal.finishMedicalPrescriptionEdition();
                 terminal.stampeeSignature();
                 terminal.sendHistoryAndPrescription();
             });
         }
 
         @Test
-        @DisplayName("Change doctor during revision")
-        void testChangeDoctorDuringRevision() {
+        @DisplayName("Modify same dose multiple times")
+        void testModifySameDoseMultipleTimes() {
+            terminal.setHealthNationalService(healthServiceStub);
+
             assertDoesNotThrow(() -> {
                 terminal.initRevision(validCIP, "Hipertensión");
-                terminal.enterMedicalAssessmentInHistory("Paciente estable");
-                
                 terminal.initMedicalPrescriptionEdition();
                 terminal.enterMedicineWithGuidelines(medicine1, validGuidelines);
-                
+
+                terminal.modifyDoseInLine(medicine1, 2.0f);
+                terminal.modifyDoseInLine(medicine1, 3.0f);
+                terminal.modifyDoseInLine(medicine1, 4.0f);
+
                 terminal.enterTreatmentEndingDate(futureDate);
+                terminal.finishMedicalPrescriptionEdition();
+                terminal.stampeeSignature();
+                terminal.sendHistoryAndPrescription();
+            });
+        }
+
+        @Test
+        @DisplayName("Flow with multiple medications")
+        void testMultipleMedicationsFlow() {
+            terminal.setHealthNationalService(healthServiceStub);
+
+            assertDoesNotThrow(() -> {
+                terminal.initRevision(validCIP, "Hipertensión");
+                terminal.initMedicalPrescriptionEdition();
+
+                terminal.enterMedicineWithGuidelines(medicine1, validGuidelines);
+                terminal.enterMedicineWithGuidelines(medicine2, validGuidelines);
+
+                terminal.modifyDoseInLine(medicine1, 2.0f);
+                terminal.modifyDoseInLine(medicine2, 3.0f);
+
+                terminal.removeLine(medicine1);
+
+                terminal.enterTreatmentEndingDate(futureDate);
+                terminal.finishMedicalPrescriptionEdition();
                 terminal.stampeeSignature();
                 terminal.sendHistoryAndPrescription();
             });
@@ -423,16 +512,19 @@ public class ConsultationTerminalTest {
         @Test
         @DisplayName("Multiple assessment annotations")
         void testMultipleAssessmentAnnotations() {
+            terminal.setHealthNationalService(healthServiceStub);
+
             assertDoesNotThrow(() -> {
                 terminal.initRevision(validCIP, "Hipertensión");
-                
+
                 terminal.enterMedicalAssessmentInHistory("Paciente inicial estable");
                 terminal.enterMedicalAssessmentInHistory("Presión arterial normal");
                 terminal.enterMedicalAssessmentInHistory("Sin síntomas");
-                
+
                 terminal.initMedicalPrescriptionEdition();
                 terminal.enterMedicineWithGuidelines(medicine1, validGuidelines);
                 terminal.enterTreatmentEndingDate(futureDate);
+                terminal.finishMedicalPrescriptionEdition();
                 terminal.stampeeSignature();
                 terminal.sendHistoryAndPrescription();
             });
@@ -441,15 +533,18 @@ public class ConsultationTerminalTest {
         @Test
         @DisplayName("Add medicine, remove it, add different medicine")
         void testAddRemoveAddDifferent() {
+            terminal.setHealthNationalService(healthServiceStub);
+
             assertDoesNotThrow(() -> {
                 terminal.initRevision(validCIP, "Hipertensión");
                 terminal.initMedicalPrescriptionEdition();
-                
+
                 terminal.enterMedicineWithGuidelines(medicine1, validGuidelines);
                 terminal.removeLine(medicine1);
                 terminal.enterMedicineWithGuidelines(medicine2, validGuidelines);
-                
+
                 terminal.enterTreatmentEndingDate(futureDate);
+                terminal.finishMedicalPrescriptionEdition();
                 terminal.stampeeSignature();
                 terminal.sendHistoryAndPrescription();
             });
@@ -457,49 +552,63 @@ public class ConsultationTerminalTest {
 
         @Test
         @DisplayName("Different illness types")
-        void testDifferentIllnessTypes() {
+        void testDifferentIllnessTypes() throws InvalidHealthCardIDException, InvalidProductIDException {
             String[] illnesses = {"Hipertensión", "Diabetes", "Asma", "Artritis"};
-            
+
             for (String illness : illnesses) {
-                terminal = new ConsultationTerminal();
-                terminal.setHealthNationalService(healthServiceStub);
-                
+                ConsultationTerminal newTerminal = new ConsultationTerminal();
+                newTerminal.setHealthNationalService(healthServiceStub);
+
+                HealthCardID cip = new HealthCardID("1234567890ABCDEF");
+                ProductID med = new ProductID("123456789012");
+                Date future = new Date(System.currentTimeMillis() +
+                        (long) 15 * 24 * 60 * 60 * 1000);
+
                 assertDoesNotThrow(() -> {
-                    terminal.initRevision(validCIP, illness);
-                    terminal.initMedicalPrescriptionEdition();
-                    terminal.enterMedicineWithGuidelines(medicine1, validGuidelines);
-                    terminal.enterTreatmentEndingDate(futureDate);
-                    terminal.stampeeSignature();
-                    terminal.sendHistoryAndPrescription();
+                    newTerminal.initRevision(cip, illness);
+                    newTerminal.initMedicalPrescriptionEdition();
+                    newTerminal.enterMedicineWithGuidelines(med, validGuidelines);
+                    newTerminal.enterTreatmentEndingDate(future);
+                    newTerminal.finishMedicalPrescriptionEdition();
+                    newTerminal.stampeeSignature();
+                    newTerminal.sendHistoryAndPrescription();
                 });
             }
         }
 
         @Test
         @DisplayName("Different dosage levels")
-        void testDifferentDosagelLevels() throws InvalidProductIDException {
+        void testDifferentDosageLevels() throws InvalidProductIDException, InvalidHealthCardIDException {
             float[] dosages = {0.5f, 1.0f, 2.5f, 5.0f, 10.0f};
-            
+
             for (float dose : dosages) {
-                terminal = new ConsultationTerminal();
-                terminal.setHealthNationalService(healthServiceStub);
-                ProductID tempMedicine = new ProductID(String.format("%012d", (int)dose * 1000));
-                
+                ConsultationTerminal newTerminal = new ConsultationTerminal();
+                newTerminal.setHealthNationalService(healthServiceStub);
+
+                // Generar ProductID único
+                String code = String.format("%012d", (int)(dose * 100000));
+                ProductID tempMedicine = new ProductID(code);
+
+                HealthCardID cip = new HealthCardID("1234567890ABCDEF");
+                Date future = new Date(System.currentTimeMillis() +
+                        (long) 15 * 24 * 60 * 60 * 1000);
+
                 assertDoesNotThrow(() -> {
-                    terminal.initRevision(validCIP, "Hipertensión");
-                    terminal.initMedicalPrescriptionEdition();
-                    terminal.enterMedicineWithGuidelines(tempMedicine, validGuidelines);
-                    terminal.modifyDoseInLine(tempMedicine, dose);
-                    terminal.enterTreatmentEndingDate(futureDate);
-                    terminal.stampeeSignature();
-                    terminal.sendHistoryAndPrescription();
+                    newTerminal.initRevision(cip, "Hipertensión");
+                    newTerminal.initMedicalPrescriptionEdition();
+                    newTerminal.enterMedicineWithGuidelines(tempMedicine, validGuidelines);
+                    newTerminal.modifyDoseInLine(tempMedicine, dose);
+                    newTerminal.enterTreatmentEndingDate(future);
+                    newTerminal.finishMedicalPrescriptionEdition();
+                    newTerminal.stampeeSignature();
+                    newTerminal.sendHistoryAndPrescription();
                 });
             }
         }
     }
 
     // ===================================================================
-    // AI WORKFLOW TESTS (Opcional - si implementas IA)
+    // AI WORKFLOW TESTS
     // ===================================================================
 
     @Nested
@@ -510,8 +619,7 @@ public class ConsultationTerminalTest {
         private DecisionMakingAIMock aiMock;
 
         @BeforeEach
-        void setUp() {
-            terminal.setHealthNationalService(healthServiceStub);
+        void setUpAI() {
             aiStub = new DecisionMakingAIStub();
             aiMock = new DecisionMakingAIMock();
         }
@@ -519,9 +627,11 @@ public class ConsultationTerminalTest {
         @Test
         @DisplayName("callDecisionMakingAI initializes successfully")
         void testCallAISuccess() {
+            terminal.setHealthNationalService(healthServiceStub);
             terminal.setDecisionMakingAI(aiStub);
-            
+
             assertDoesNotThrow(() -> {
+                terminal.initRevision(validCIP, "Hipertensión");
                 terminal.callDecisionMakingAI();
             });
         }
@@ -529,9 +639,14 @@ public class ConsultationTerminalTest {
         @Test
         @DisplayName("callDecisionMakingAI throws AIException")
         void testCallAIException() {
+            terminal.setHealthNationalService(healthServiceStub);
             terminal.setDecisionMakingAI(aiMock);
             aiMock.setThrowAIException(true);
-            
+
+            assertDoesNotThrow(() -> {
+                terminal.initRevision(validCIP, "Hipertensión");
+            });
+
             assertThrows(Exception.class, () -> {
                 terminal.callDecisionMakingAI();
             });
@@ -540,24 +655,29 @@ public class ConsultationTerminalTest {
         @Test
         @DisplayName("askAIForSuggest returns suggestions")
         void testAskAIForSuggestSuccess() {
+            terminal.setHealthNationalService(healthServiceStub);
             terminal.setDecisionMakingAI(aiStub);
-            
+
             assertDoesNotThrow(() -> {
+                terminal.initRevision(validCIP, "Hipertensión");
                 terminal.callDecisionMakingAI();
-                terminal.askAIForSuggest("What medication do you recommend for hypertension?");
+                String response = terminal.askAIForSuggest("What medication do you recommend for hypertension?");
+                assertNotNull(response);
             });
         }
 
         @Test
         @DisplayName("askAIForSuggest throws BadPromptException")
         void testAskAIForSuggestBadPrompt() {
+            terminal.setHealthNationalService(healthServiceStub);
             terminal.setDecisionMakingAI(aiMock);
             aiMock.setThrowBadPromptException(true);
-            
+
             assertDoesNotThrow(() -> {
+                terminal.initRevision(validCIP, "Hipertensión");
                 terminal.callDecisionMakingAI();
             });
-            
+
             assertThrows(Exception.class, () -> {
                 terminal.askAIForSuggest("???");
             });
@@ -566,9 +686,11 @@ public class ConsultationTerminalTest {
         @Test
         @DisplayName("extractGuidelinesFromSugg parses suggestions")
         void testExtractGuidelinesSuccess() {
+            terminal.setHealthNationalService(healthServiceStub);
             terminal.setDecisionMakingAI(aiStub);
-            
+
             assertDoesNotThrow(() -> {
+                terminal.initRevision(validCIP, "Hipertensión");
                 terminal.callDecisionMakingAI();
                 terminal.askAIForSuggest("What medication do you recommend?");
                 terminal.extractGuidelinesFromSugg();
@@ -580,18 +702,19 @@ public class ConsultationTerminalTest {
         void testAISuggestionsAppliedToPrescription() {
             terminal.setHealthNationalService(healthServiceStub);
             terminal.setDecisionMakingAI(aiStub);
-            
+
             assertDoesNotThrow(() -> {
                 terminal.initRevision(validCIP, "Hipertensión");
                 terminal.initMedicalPrescriptionEdition();
-                
+
                 // Llamar IA y obtener sugerencias
                 terminal.callDecisionMakingAI();
                 terminal.askAIForSuggest("What medication for hypertension?");
                 terminal.extractGuidelinesFromSugg();
-                
+
                 // Completar flujo
                 terminal.enterTreatmentEndingDate(futureDate);
+                terminal.finishMedicalPrescriptionEdition();
                 terminal.stampeeSignature();
                 terminal.sendHistoryAndPrescription();
             });
@@ -602,23 +725,24 @@ public class ConsultationTerminalTest {
         void testManualAndAIChanges() {
             terminal.setHealthNationalService(healthServiceStub);
             terminal.setDecisionMakingAI(aiStub);
-            
+
             assertDoesNotThrow(() -> {
                 terminal.initRevision(validCIP, "Hipertensión");
                 terminal.initMedicalPrescriptionEdition();
-                
+
                 // Cambios manuales
                 terminal.enterMedicineWithGuidelines(medicine1, validGuidelines);
-                
+
                 // Sugerencias de IA
                 terminal.callDecisionMakingAI();
                 terminal.askAIForSuggest("Improve the prescription");
                 terminal.extractGuidelinesFromSugg();
-                
+
                 // Más cambios manuales
                 terminal.modifyDoseInLine(medicine1, 2.0f);
-                
+
                 terminal.enterTreatmentEndingDate(futureDate);
+                terminal.finishMedicalPrescriptionEdition();
                 terminal.stampeeSignature();
                 terminal.sendHistoryAndPrescription();
             });
@@ -633,33 +757,31 @@ public class ConsultationTerminalTest {
     @DisplayName("Comprehensive Integration Tests")
     class IntegrationTests {
 
-        @BeforeEach
-        void setUp() {
-            terminal.setHealthNationalService(healthServiceStub);
-        }
-
         @Test
         @DisplayName("Full workflow with all operations")
         void testFullWorkflowAllOperations() {
+            terminal.setHealthNationalService(healthServiceStub);
+
             assertDoesNotThrow(() -> {
                 // Init
                 terminal.initRevision(validCIP, "Hipertensión");
                 terminal.enterMedicalAssessmentInHistory("Evaluación inicial completa");
-                
+
                 // Edit prescription
                 terminal.initMedicalPrescriptionEdition();
                 terminal.enterMedicineWithGuidelines(medicine1, validGuidelines);
                 terminal.enterMedicineWithGuidelines(medicine2, validGuidelines);
-                
+
                 // Modify and remove
                 terminal.modifyDoseInLine(medicine1, 2.0f);
                 terminal.removeLine(medicine2);
-                
+
                 // Complete and send
                 terminal.enterTreatmentEndingDate(futureDate);
+                terminal.finishMedicalPrescriptionEdition();
                 terminal.stampeeSignature();
                 MedicalPrescription result = terminal.sendHistoryAndPrescription();
-                
+
                 assertNotNull(result);
             });
         }
@@ -667,20 +789,27 @@ public class ConsultationTerminalTest {
         @Test
         @DisplayName("Workflow recovery after exceptions")
         void testWorkflowRecoveryAfterExceptions() {
+            terminal.setHealthNationalService(healthServiceStub);
+
             assertDoesNotThrow(() -> {
                 terminal.initRevision(validCIP, "Hipertensión");
                 terminal.initMedicalPrescriptionEdition();
-                
+
                 // Intenta hacer algo inválido
-                assertThrows(Exception.class, () -> {
+                try {
                     terminal.enterMedicineWithGuidelines(medicine1, new String[]{"INVALID"});
-                });
-                
-                // Continúa normalmente
+                    fail("Debería haber lanzado excepción");
+                } catch (Exception e) {
+                    // Excepción esperada
+                }
+
+                // Continúa normalmente después del error
                 terminal.enterMedicineWithGuidelines(medicine1, validGuidelines);
                 terminal.enterTreatmentEndingDate(futureDate);
+                terminal.finishMedicalPrescriptionEdition();
                 terminal.stampeeSignature();
                 terminal.sendHistoryAndPrescription();
             });
         }
     }
+}
