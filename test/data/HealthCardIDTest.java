@@ -1,4 +1,4 @@
-package java.data;
+package data;
 import data.HealthCardID;
 import org.junit.jupiter.api.Test;
 import services.HealthCardIDException;

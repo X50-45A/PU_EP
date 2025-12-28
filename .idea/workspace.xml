@@ -4,19 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="aef05949-8270-411e-a380-5e4a23585425" name="Changes" comment="modificado el Suggestion.java al no tener la funcionalidad concerta del test y el DecisionMakingAIMock.java">
-      <change afterPath="$PROJECT_DIR$/src/main/java/data/InvalidHealthCardIDException.java" afterDir="false" />
+    <list default="true" id="aef05949-8270-411e-a380-5e4a23585425" name="Changes" comment="modificados todos los tests">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/consultamedica/ConsultationTerminal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/consultamedica/ConsultationTerminal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/consultamedica/MedicalPrescription.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/consultamedica/MedicalPrescription.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/data/InvalidDigitalSignatureException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/InvalidDigitalSignatureException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/services/Suggestion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/Suggestion.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/java/data/DigitalSignatureTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/java/data/DigitalSignatureTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/java/medicalconsultation/ConsultationTerminalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/java/medicalconsultation/ConsultationTerminalTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/java/medicalconsultation/MedicalHistoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/java/medicalconsultation/MedicalHistoryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/java/medicalconsultation/MedicalPrescriptionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/java/medicalconsultation/MedicalPrescriptionTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/java/medicalconsultation/TakingGuidelineTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/java/medicalconsultation/TakingGuidelineTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/java/services/doubles/DecisionMakingAIStub.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/java/services/doubles/DecisionMakingAIStub.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/java/data/DigitalSignatureTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/data/DigitalSignatureTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/java/data/HealthCardIDTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/data/HealthCardIDTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/java/data/ProductIDTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/data/ProductIDTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/java/data/ePrescripCodeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/data/ePrescripCodeTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/java/medicalconsultation/ConsultationTerminalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/medicalconsultation/ConsultationTerminalTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/java/medicalconsultation/MedicalHistoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/medicalconsultation/MedicalHistoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/java/medicalconsultation/MedicalPrescriptionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/medicalconsultation/MedicalPrescriptionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/java/medicalconsultation/PosologyTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/medicalconsultation/PosologyTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/java/medicalconsultation/TakingGuidelineTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/medicalconsultation/TakingGuidelineTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/java/services/doubles/DecisionMakingAIMock.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/services/doubles/DecisionMakingAIMock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/java/services/doubles/DecisionMakingAIStub.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/services/doubles/DecisionMakingAIStub.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/java/services/doubles/HealthNationalServiceMock.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/services/doubles/HealthNationalServiceMock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/java/services/doubles/HealthNationalServiceStub.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/services/doubles/HealthNationalServiceStub.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,31 +59,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;JUnit.PosologyTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ePrescribeCodeTest.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Unknown [test].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Unknown [verify].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;fixes&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;settings.sync&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "JUnit.All in PU_EP.executor": "Run",
+    "JUnit.DigitalSignatureTest.executor": "Run",
+    "JUnit.PosologyTest.executor": "Run",
+    "JUnit.ePrescribeCodeTest.executor": "Run",
+    "JUnit.java.data in PU_EP.executor": "Run",
+    "Maven.Unknown [test].executor": "Run",
+    "Maven.Unknown [verify].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "fixes",
+    "kotlin-language-version-configured": "true",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "settings.sync",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="services" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.DigitalSignatureTest">
+  <component name="RunManager" selected="JUnit.All in PU_EP">
     <configuration name="All in PU_EP" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="PU_EP" />
       <option name="PACKAGE_NAME" value="" />
@@ -151,9 +156,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.All in PU_EP" />
         <item itemvalue="JUnit.DigitalSignatureTest" />
         <item itemvalue="JUnit.java.data in PU_EP" />
-        <item itemvalue="JUnit.All in PU_EP" />
         <item itemvalue="JUnit.ePrescribeCodeTest" />
         <item itemvalue="JUnit.PosologyTest" />
       </list>
@@ -181,7 +186,7 @@
       <workItem from="1766867496289" duration="748000" />
       <workItem from="1766880081978" duration="17000" />
       <workItem from="1766913264458" duration="5746000" />
-      <workItem from="1766921418446" duration="2241000" />
+      <workItem from="1766921418446" duration="3258000" />
     </task>
     <task id="LOCAL-00001" summary="fixeado muchaaaaaaaaaaas cosas, alguien modifico la estructura del proyecto y por eso fallavan los imports">
       <option name="closed" value="true" />
@@ -287,7 +292,15 @@
       <option name="project" value="LOCAL" />
       <updated>1766917805866</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="modificados todos los tests">
+      <option name="closed" value="true" />
+      <created>1766929404421</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1766929404421</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -316,6 +329,7 @@
     <MESSAGE value="otros tests modificados que no tengan errores." />
     <MESSAGE value="adaptados el stub por culpa de malos imports (?) el ConsultationTerminalTest es duro de arreglar." />
     <MESSAGE value="modificado el Suggestion.java al no tener la funcionalidad concerta del test y el DecisionMakingAIMock.java" />
-    <option name="LAST_COMMIT_MESSAGE" value="modificado el Suggestion.java al no tener la funcionalidad concerta del test y el DecisionMakingAIMock.java" />
+    <MESSAGE value="modificados todos los tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="modificados todos los tests" />
   </component>
 </project>

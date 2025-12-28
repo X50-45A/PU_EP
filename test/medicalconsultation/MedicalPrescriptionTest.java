@@ -1,4 +1,4 @@
-package java.medicalconsultation;
+package medicalconsultation;
 
 import consultamedica.*;
 import data.InvalidProductIDException;

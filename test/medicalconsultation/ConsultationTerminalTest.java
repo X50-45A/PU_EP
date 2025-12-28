@@ -1,4 +1,4 @@
-package java.medicalconsultation;
+package medicalconsultation;
 
 import consultamedica.ConsultationTerminal;
 import consultamedica.MedicalPrescription;
@@ -9,10 +9,10 @@ import org.junit.jupiter.api.Nested;
 import data.*;
 
 
-import java.services.doubles.DecisionMakingAIMock;
-import java.services.doubles.DecisionMakingAIStub;
-import java.services.doubles.HealthNationalServiceMock;
-import java.services.doubles.HealthNationalServiceStub;
+import services.doubles.DecisionMakingAIMock;
+import services.doubles.DecisionMakingAIStub;
+import services.doubles.HealthNationalServiceMock;
+import services.doubles.HealthNationalServiceStub;
 import java.util.Date;
 import java.net.ConnectException;
 import static org.junit.jupiter.api.Assertions.*;

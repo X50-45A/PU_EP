@@ -1,4 +1,4 @@
-package java.services.doubles;
+package services.doubles;
 
 
 import data.InvalidProductIDException;

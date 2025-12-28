@@ -1,4 +1,4 @@
-package java.data;
+package data;
 
 import data.InvalidProductIDException;
 import data.ProductID;
