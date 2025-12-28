@@ -22,12 +22,17 @@ public class MedicalPrescriptionTest {
     private String[] validGuidelines;
 
     @BeforeEach
-    void setUp() throws InvalidProductIDException, IncorrectParametersException {
+    void setUp() throws Exception {
         cip = new HealthCardID("1234567890ABCDEF");
+        prescription = new MedicalPrescription(cip, 12345, "Hipertensión");
+
         product1 = new ProductID("123456789012");
-        product2 = new ProductID("210987654321");
-        validGuidelines = new String[]{"BEFORELUNCH", "15", "1", "1", "DAY", "Tomar con agua"};
-        prescription = new MedicalPrescription(cip, 100, "Hipertensión");
+        product2 = new ProductID("987654321098");
+
+        // ✅ 7 elementos (no 6)
+        validGuidelines = new String[]{
+                "BEFORELUNCH", "15", "1", "1", "DAY", "Con agua", ""
+        };
     }
 
     @Nested
@@ -37,10 +42,10 @@ public class MedicalPrescriptionTest {
         @Test
         @DisplayName("Constructor accepts valid parameters")
         void testConstructorWithValidParameters() {
-            assertNotNull(prescription);
             assertEquals(cip, prescription.getCip());
-            assertEquals(100, prescription.getMembShipNumb());
+            assertEquals(12345, prescription.getMembShipNumb()); // ← Cambiar aquí
             assertEquals("Hipertensión", prescription.getIllness());
+            assertEquals(0, prescription.getLineCount());
         }
 
         @Test
@@ -257,46 +262,47 @@ public class MedicalPrescriptionTest {
     @DisplayName("removeLine() Success Tests")
     class RemoveLineSuccessTests {
 
-        @BeforeEach
-        void setUp() throws ProductAlreadyInPrescriptionException, IncorrectTakingGuidelinesException {
-            prescription.addLine(product1, validGuidelines);
-        }
+
 
         @Test
-        @DisplayName("removeLine removes medicine correctly")
-        void testRemoveExistingLine() throws ProductNotInPrescriptionException {
+        @DisplayName("removeLine removes existing line")
+        void testRemoveExistingLine() throws ProductNotInPrescriptionException, ProductAlreadyInPrescriptionException, IncorrectTakingGuidelinesException {
+            // Verificar que existen
+            prescription.addLine(product1, validGuidelines);
+            prescription.addLine(product2, validGuidelines);
+            assertEquals(2, prescription.getLineCount());
+            assertTrue(prescription.containsProduct(product1));
+
+            // Remover
             prescription.removeLine(product1.getCode());
-            assertThrows(Exception.class, () -> {
-                prescription.getLine(product1);
-            });
+
+            // Verificar
+            assertEquals(1, prescription.getLineCount());
             assertFalse(prescription.containsProduct(product1));
+            assertTrue(prescription.containsProduct(product2)); // Sigue existiendo
         }
 
         @Test
         @DisplayName("removeLine does not affect other lines")
-        void testRemoveDoesNotAffectOtherLines() throws ProductAlreadyInPrescriptionException, IncorrectTakingGuidelinesException, ProductNotInPrescriptionException {
+        void testRemoveDoesNotAffectOtherLines() throws Exception {
+            prescription.addLine(product1, validGuidelines);
             prescription.addLine(product2, validGuidelines);
             prescription.removeLine(product1.getCode());
-            
-            assertDoesNotThrow(() -> {
-                prescription.getLine(product2);
-            });
 
+            // product2 sigue existiendo
+            assertTrue(prescription.containsProduct(product2));
+            assertEquals(1, prescription.getLineCount());
         }
 
         @Test
-        @DisplayName("removeLine multiple medicines")
-        void testRemoveMultipleLines() throws ProductAlreadyInPrescriptionException, IncorrectTakingGuidelinesException, ProductNotInPrescriptionException {
+        @DisplayName("removeLine multiple lines")
+        void testRemoveMultipleLines() throws Exception {
+            prescription.addLine(product1, validGuidelines);
             prescription.addLine(product2, validGuidelines);
             prescription.removeLine(product1.getCode());
             prescription.removeLine(product2.getCode());
-            
-            assertThrows(Exception.class, () -> {
-                prescription.getLine(product1);
-            });
-            assertThrows(Exception.class, () -> {
-                prescription.getLine(product2);
-            });
+
+            assertEquals(0, prescription.getLineCount());
         }
     }
 
@@ -326,7 +332,7 @@ public class MedicalPrescriptionTest {
         @Test
         @DisplayName("getMembShipNumb returns correct number")
         void testGetMembShipNumb() {
-            assertEquals(100, prescription.getMembShipNumb());
+            assertEquals(12345, prescription.getMembShipNumb());
         }
 
         @Test

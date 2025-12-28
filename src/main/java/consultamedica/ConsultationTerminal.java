@@ -68,7 +68,7 @@ public class ConsultationTerminal {
     }
 
     public void enterMedicalAssessmentInHistory(String assess)
-            throws ProceduralException {
+            throws ProceduralException, IncorrectParametersException {
         if (!revisionInitiated) {
             throw new ProceduralException("Debe iniciar la revisión primero");
         }
@@ -115,7 +115,8 @@ public class ConsultationTerminal {
     }
 
     public void removeLine(ProductID prodID)
-            throws ProductNotInPrescriptionException, ProceduralException {
+            throws ProductNotInPrescriptionException, ProceduralException,
+            InvalidProductIDException {
         if (!prescriptionEditionStarted) {
             throw new ProceduralException(
                     "Debe iniciar la edición de la prescripción primero");
@@ -125,6 +126,7 @@ public class ConsultationTerminal {
                     "La edición de la prescripción ya ha finalizado");
         }
 
+        // ✅ USAR currentPrescription (la que estás editando)
         currentPrescription.removeLine(prodID.getCode());
     }
 

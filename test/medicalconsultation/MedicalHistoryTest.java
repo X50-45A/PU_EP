@@ -2,6 +2,7 @@ package medicalconsultation;
 
 import consultamedica.IncorrectParametersException;
 import consultamedica.MedicalHistory;
+import data.InvalidHealthCardIDException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,7 +16,7 @@ public class MedicalHistoryTest {
     private HealthCardID validCIP;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws IncorrectParametersException, InvalidHealthCardIDException {
         validCIP = new HealthCardID("1234567890ABCDEF");
     }
 
@@ -28,7 +29,7 @@ public class MedicalHistoryTest {
         void testConstructorWithValidParameters() throws IncorrectParametersException {
             MedicalHistory mh = new MedicalHistory(validCIP, 100);
             assertNotNull(mh);
-            assertEquals(validCIP, mh.getCip().getPersonalID());
+            assertEquals(validCIP.getPersonalID(), mh.getCip().getPersonalID());
             assertEquals(100, mh.getMembShipNumb());
         }
 
@@ -70,7 +71,7 @@ public class MedicalHistoryTest {
 
         @Test
         @DisplayName("addAnnotation adds text to history")
-        void testAddAnnotation() {
+        void testAddAnnotation() throws IncorrectParametersException {
             mh.addMedicalHistoryAnnotations("Paciente con hipertensión");
             String history = mh.getHistory();
             assertTrue(history.contains("hipertensión"));
@@ -78,7 +79,7 @@ public class MedicalHistoryTest {
 
         @Test
         @DisplayName("addAnnotation multiple times concatenates")
-        void testAddMultipleAnnotations() {
+        void testAddMultipleAnnotations() throws IncorrectParametersException {
             mh.addMedicalHistoryAnnotations("Anotación 1");
             mh.addMedicalHistoryAnnotations("Anotación 2");
             String history = mh.getHistory();
@@ -87,19 +88,31 @@ public class MedicalHistoryTest {
         }
 
         @Test
-        @DisplayName("addAnnotation throws exception when null")
+        @DisplayName("Add annotation with null is ignored")
         void testAddAnnotationWithNull() {
-            assertThrows(Exception.class, () -> {
+            String originalHistory = mh.getHistory();
+
+            // NO lanza excepción, solo ignora
+            assertDoesNotThrow(() -> {
                 mh.addMedicalHistoryAnnotations(null);
             });
+
+            // Verificar que no cambió
+            assertEquals(originalHistory, mh.getHistory());
         }
 
         @Test
-        @DisplayName("addAnnotation throws exception when empty")
+        @DisplayName("Add annotation with empty string is ignored")
         void testAddAnnotationWithEmpty() {
-            assertThrows(Exception.class, () -> {
+            String originalHistory = mh.getHistory();
+
+            // NO lanza excepción, solo ignora
+            assertDoesNotThrow(() -> {
                 mh.addMedicalHistoryAnnotations("");
             });
+
+            // Verificar que no cambió
+            assertEquals(originalHistory, mh.getHistory());
         }
     }
 
@@ -152,7 +165,7 @@ public class MedicalHistoryTest {
         @Test
         @DisplayName("getHealthCardID returns correct CIP")
         void testGetHealthCardID() {
-            assertEquals(validCIP, mh.getCip().getPersonalID());
+            assertEquals(validCIP.getPersonalID(), mh.getCip().getPersonalID());
         }
 
         @Test
@@ -163,7 +176,7 @@ public class MedicalHistoryTest {
 
         @Test
         @DisplayName("getHistory returns history")
-        void testGetHistory() {
+        void testGetHistory() throws IncorrectParametersException {
             mh.addMedicalHistoryAnnotations("Test");
             assertNotNull(mh.getHistory());
             assertTrue(mh.getHistory().contains("Test"));

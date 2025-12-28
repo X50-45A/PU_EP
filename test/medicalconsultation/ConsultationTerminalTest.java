@@ -7,12 +7,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import data.*;
+import services.doubles.*;
 
-
-import services.doubles.DecisionMakingAIMock;
-import services.doubles.DecisionMakingAIStub;
-import services.doubles.HealthNationalServiceMock;
-import services.doubles.HealthNationalServiceStub;
 import java.util.Date;
 import java.net.ConnectException;
 import static org.junit.jupiter.api.Assertions.*;
@@ -57,52 +53,36 @@ public class ConsultationTerminalTest {
     class SuccessfulFlowTests {
 
         @Test
-        @DisplayName("Complete workflow: init, edit, add medicine, modify, remove, sign, send")
+        @DisplayName("Complete workflow: init, edit, add medicine, modify, sign, send")
         void testCompleteSuccessfulFlow() {
             terminal.setHealthNationalService(healthServiceStub);
 
-            // 1. Iniciar revisión
             assertDoesNotThrow(() -> {
+                // 1. Iniciar revisión
                 terminal.initRevision(validCIP, "Hipertensión");
-            });
 
-            // 2. Añadir valoración médica
-            assertDoesNotThrow(() -> {
+                // 2. Añadir valoración médica
                 terminal.enterMedicalAssessmentInHistory("Paciente mejora");
-            });
 
-            // 3. Iniciar edición de prescripción
-            assertDoesNotThrow(() -> {
+                // 3. Iniciar edición de prescripción
                 terminal.initMedicalPrescriptionEdition();
-            });
 
-            // 4. Añadir medicamento
-            assertDoesNotThrow(() -> {
+                // 4. Añadir medicamento
                 terminal.enterMedicineWithGuidelines(medicine1, validGuidelines);
-            });
 
-            // 5. Modificar dosis
-            assertDoesNotThrow(() -> {
+                // 5. Modificar dosis
                 terminal.modifyDoseInLine(medicine1, 2.0f);
-            });
 
-            // 6. Fijar fecha de finalización
-            assertDoesNotThrow(() -> {
+                // 6. Fijar fecha de finalización
                 terminal.enterTreatmentEndingDate(futureDate);
-            });
 
-            // 7. Finalizar edición
-            assertDoesNotThrow(() -> {
+                // 7. Finalizar edición
                 terminal.finishMedicalPrescriptionEdition();
-            });
 
-            // 8. Estampar firma
-            assertDoesNotThrow(() -> {
+                // 8. Estampar firma
                 terminal.stampeeSignature();
-            });
 
-            // 9. Enviar
-            assertDoesNotThrow(() -> {
+                // 9. Enviar
                 MedicalPrescription result = terminal.sendHistoryAndPrescription();
                 assertNotNull(result);
             });
@@ -451,7 +431,7 @@ public class ConsultationTerminalTest {
                 // Modify
                 terminal.modifyDoseInLine(medicine1, 2.0f);
 
-                // Remove
+                // Remove (ANTES de finish)
                 terminal.removeLine(medicine1);
 
                 // Añadir otro para completar (no puede estar vacía)
@@ -500,6 +480,7 @@ public class ConsultationTerminalTest {
                 terminal.modifyDoseInLine(medicine1, 2.0f);
                 terminal.modifyDoseInLine(medicine2, 3.0f);
 
+                // Remove ANTES de finish
                 terminal.removeLine(medicine1);
 
                 terminal.enterTreatmentEndingDate(futureDate);
@@ -540,6 +521,7 @@ public class ConsultationTerminalTest {
                 terminal.initMedicalPrescriptionEdition();
 
                 terminal.enterMedicineWithGuidelines(medicine1, validGuidelines);
+                // Remove ANTES de finish
                 terminal.removeLine(medicine1);
                 terminal.enterMedicineWithGuidelines(medicine2, validGuidelines);
 
@@ -772,7 +754,7 @@ public class ConsultationTerminalTest {
                 terminal.enterMedicineWithGuidelines(medicine1, validGuidelines);
                 terminal.enterMedicineWithGuidelines(medicine2, validGuidelines);
 
-                // Modify and remove
+                // Modify and remove (ANTES de finish)
                 terminal.modifyDoseInLine(medicine1, 2.0f);
                 terminal.removeLine(medicine2);
 

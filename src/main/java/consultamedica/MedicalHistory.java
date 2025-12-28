@@ -36,6 +36,7 @@ public class MedicalHistory {
      * @param annot Anotaciones a añadir
      */
     public void addMedicalHistoryAnnotations(String annot) {
+        // Simplemente ignorar si es null o vacío
         if (annot != null && !annot.trim().isEmpty()) {
             if (!this.history.isEmpty()) {
                 this.history += "\n";
