@@ -1,12 +1,12 @@
 package java.services.doubles;
 
-import main.java.services.BadPromptException;
-import main.java.services.Suggestion;
+import data.InvalidProductIDException;
+import services.BadPromptException;
 import services.DecisionMakingAI;
-import medicalconsultation.Suggestion;
+import services.Suggestion;
 import java.util.ArrayList;
 import java.util.List;
-import main.java.services.AIException;
+import services.AIException;
 
 /**
  * Mock para DecisionMakingAI - configurable para lanzar excepciones
@@ -52,14 +52,21 @@ public class DecisionMakingAIMock implements DecisionMakingAI {
     }
 
     @Override
-    public List<Suggestion> parseSuggest(String aiAnswer) {
+    public List<Suggestion> parseSuggest(String aiAnswer) throws InvalidProductIDException {
         List<Suggestion> suggestions = new ArrayList<>();
         
         if (aiAnswer == null || aiAnswer.isEmpty()) {
             return suggestions;
         }
         
-        suggestions.add(new Suggestion("I", "123456789012", "BEFORELUNCH", "15", "1", "1", "DAY", "Con agua"));
+        suggestions.add(new Suggestion("I",
+                "123456789012",
+                "BEFORELUNCH",
+                "15",
+                "1",
+                "1",
+                "DAY",
+                "Con agua"));
         return suggestions;
     }
 }

@@ -1,5 +1,7 @@
-package medicalconsultation;
+package java.medicalconsultation;
 
+import consultamedica.TakingGuideline;
+import consultamedica.dayMoment;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
