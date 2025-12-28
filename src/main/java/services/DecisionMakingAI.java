@@ -1,8 +1,8 @@
 package services;
 
-import main.java.services.BadPromptException;
-import main.java.services.Suggestion;
-import main.java.services.AIException;
+import services.BadPromptException;
+import services.Suggestion;
+import services.AIException;
 import java.util.List;
 
 public interface DecisionMakingAI {

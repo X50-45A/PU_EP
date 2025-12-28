@@ -1,5 +1,7 @@
-package medicalconsultation;
+package java.medicalconsultation;
 
+import consultamedica.FqUnit;
+import consultamedica.Posology;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

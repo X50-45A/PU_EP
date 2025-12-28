@@ -1,5 +1,7 @@
-package medicalconsultation;
+package java.medicalconsultation;
 
+import consultamedica.*;
+import data.InvalidProductIDException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +22,7 @@ public class MedicalPrescriptionTest {
     private String[] validGuidelines;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws InvalidProductIDException, IncorrectParametersException {
         cip = new HealthCardID("1234567890ABCDEF");
         product1 = new ProductID("123456789012");
         product2 = new ProductID("210987654321");
@@ -92,7 +94,7 @@ public class MedicalPrescriptionTest {
 
         @Test
         @DisplayName("addLine medicine can be retrieved")
-        void testAddLineAndRetrieve() {
+        void testAddLineAndRetrieve() throws ProductAlreadyInPrescriptionException, IncorrectTakingGuidelinesException {
             prescription.addLine(product1, validGuidelines);
             assertDoesNotThrow(() -> {
                 prescription.getPrescriptionLine(product1);
@@ -101,7 +103,7 @@ public class MedicalPrescriptionTest {
 
         @Test
         @DisplayName("addLine multiple different products")
-        void testAddMultipleDifferentProducts() {
+        void testAddMultipleDifferentProducts() throws ProductAlreadyInPrescriptionException, IncorrectTakingGuidelinesException {
             prescription.addLine(product1, validGuidelines);
             prescription.addLine(product2, validGuidelines);
             
@@ -118,7 +120,7 @@ public class MedicalPrescriptionTest {
 
         @Test
         @DisplayName("addLine throws exception with duplicate ProductID")
-        void testAddLineDuplicateProduct() {
+        void testAddLineDuplicateProduct() throws ProductAlreadyInPrescriptionException, IncorrectTakingGuidelinesException {
             prescription.addLine(product1, validGuidelines);
             assertThrows(Exception.class, () -> {
                 prescription.addLine(product1, validGuidelines);
@@ -165,13 +167,13 @@ public class MedicalPrescriptionTest {
     class ModifyDoseSuccessTests {
 
         @BeforeEach
-        void setUp() {
+        void setUp() throws ProductAlreadyInPrescriptionException, IncorrectTakingGuidelinesException {
             prescription.addLine(product1, validGuidelines);
         }
 
         @Test
         @DisplayName("modifyDoseInLine updates dose correctly")
-        void testModifyDoseInExistingLine() {
+        void testModifyDoseInExistingLine() throws ProductNotInPrescriptionException {
             prescription.modifyDoseInLine(product1, 2.0f);
             assertEquals(2.0f, prescription.getPrescriptionLine(product1)
                     .getTakingGuideline().getPosology().getDose());
@@ -179,7 +181,7 @@ public class MedicalPrescriptionTest {
 
         @Test
         @DisplayName("modifyDoseInLine does not affect other lines")
-        void testModifyDoseDoesNotAffectOtherLines() {
+        void testModifyDoseDoesNotAffectOtherLines() throws ProductAlreadyInPrescriptionException, IncorrectTakingGuidelinesException, ProductNotInPrescriptionException {
             prescription.addLine(product2, validGuidelines);
             prescription.modifyDoseInLine(product1, 5.0f);
             
@@ -189,7 +191,7 @@ public class MedicalPrescriptionTest {
 
         @Test
         @DisplayName("modifyDoseInLine multiple times")
-        void testModifyDoseMultipleTimes() {
+        void testModifyDoseMultipleTimes() throws ProductNotInPrescriptionException {
             prescription.modifyDoseInLine(product1, 2.0f);
             prescription.modifyDoseInLine(product1, 3.0f);
             
@@ -212,7 +214,7 @@ public class MedicalPrescriptionTest {
 
         @Test
         @DisplayName("modifyDoseInLine throws exception with negative dose")
-        void testModifyDoseNegative() {
+        void testModifyDoseNegative() throws ProductAlreadyInPrescriptionException, IncorrectTakingGuidelinesException {
             prescription.addLine(product1, validGuidelines);
             assertThrows(Exception.class, () -> {
                 prescription.modifyDoseInLine(product1, -1.0f);
@@ -221,7 +223,7 @@ public class MedicalPrescriptionTest {
 
         @Test
         @DisplayName("modifyDoseInLine throws exception with zero dose")
-        void testModifyDoseZero() {
+        void testModifyDoseZero() throws ProductAlreadyInPrescriptionException, IncorrectTakingGuidelinesException {
             prescription.addLine(product1, validGuidelines);
             assertThrows(Exception.class, () -> {
                 prescription.modifyDoseInLine(product1, 0.0f);
@@ -234,13 +236,13 @@ public class MedicalPrescriptionTest {
     class RemoveLineSuccessTests {
 
         @BeforeEach
-        void setUp() {
+        void setUp() throws ProductAlreadyInPrescriptionException, IncorrectTakingGuidelinesException {
             prescription.addLine(product1, validGuidelines);
         }
 
         @Test
         @DisplayName("removeLine removes medicine correctly")
-        void testRemoveExistingLine() {
+        void testRemoveExistingLine() throws ProductNotInPrescriptionException {
             prescription.removeLine(product1);
             assertThrows(Exception.class, () -> {
                 prescription.getPrescriptionLine(product1);
@@ -249,7 +251,7 @@ public class MedicalPrescriptionTest {
 
         @Test
         @DisplayName("removeLine does not affect other lines")
-        void testRemoveDoesNotAffectOtherLines() {
+        void testRemoveDoesNotAffectOtherLines() throws ProductAlreadyInPrescriptionException, IncorrectTakingGuidelinesException, ProductNotInPrescriptionException {
             prescription.addLine(product2, validGuidelines);
             prescription.removeLine(product1);
             
@@ -260,7 +262,7 @@ public class MedicalPrescriptionTest {
 
         @Test
         @DisplayName("removeLine multiple medicines")
-        void testRemoveMultipleLines() {
+        void testRemoveMultipleLines() throws ProductAlreadyInPrescriptionException, IncorrectTakingGuidelinesException, ProductNotInPrescriptionException {
             prescription.addLine(product2, validGuidelines);
             prescription.removeLine(product1);
             prescription.removeLine(product2);
@@ -316,7 +318,7 @@ public class MedicalPrescriptionTest {
 
         @Test
         @DisplayName("Add, modify, remove same product in sequence")
-        void testAddModifyRemoveSequence() {
+        void testAddModifyRemoveSequence() throws ProductAlreadyInPrescriptionException, IncorrectTakingGuidelinesException, ProductNotInPrescriptionException {
             prescription.addLine(product1, validGuidelines);
             prescription.modifyDoseInLine(product1, 2.0f);
             prescription.removeLine(product1);

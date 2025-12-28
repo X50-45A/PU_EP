@@ -1,6 +1,6 @@
 package services;
 
-import main.java.data.ProductID;
+import data.ProductID;
 
 /**
  * Representa una sugerencia de la IA para ajustar la medicación

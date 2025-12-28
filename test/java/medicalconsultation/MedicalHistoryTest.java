@@ -1,5 +1,6 @@
 package java.medicalconsultation;
 
+import consultamedica.IncorrectParametersException;
 import consultamedica.MedicalHistory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +25,7 @@ public class MedicalHistoryTest {
 
         @Test
         @DisplayName("Constructor accepts valid HealthCardID and membership > 0")
-        void testConstructorWithValidParameters() {
+        void testConstructorWithValidParameters() throws IncorrectParametersException {
             MedicalHistory mh = new MedicalHistory(validCIP, 100);
             assertNotNull(mh);
             assertEquals(validCIP, mh.getHealthCardID());
@@ -63,7 +64,7 @@ public class MedicalHistoryTest {
         private MedicalHistory mh;
 
         @BeforeEach
-        void setUp() {
+        void setUp() throws IncorrectParametersException {
             mh = new MedicalHistory(validCIP, 100);
         }
 
@@ -109,7 +110,7 @@ public class MedicalHistoryTest {
         private MedicalHistory mh;
 
         @BeforeEach
-        void setUp() {
+        void setUp() throws IncorrectParametersException {
             mh = new MedicalHistory(validCIP, 100);
         }
 
@@ -144,7 +145,7 @@ public class MedicalHistoryTest {
         private MedicalHistory mh;
 
         @BeforeEach
-        void setUp() {
+        void setUp() throws IncorrectParametersException {
             mh = new MedicalHistory(validCIP, 100);
         }
 

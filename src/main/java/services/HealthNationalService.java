@@ -5,7 +5,7 @@ import consultamedica.MedicalPrescription;
 import data.HealthCardID;
 
 import java.net.ConnectException;
-import main.java.services.NotCompletedMedicalPrescription;
+import services.NotCompletedMedicalPrescription;
 
 public interface HealthNationalService {
     MedicalHistory getMedicalHistory (HealthCardID cip)
