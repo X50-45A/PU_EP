@@ -127,7 +127,7 @@ public class ConsultationTerminal {
         }
 
         // ✅ USAR currentPrescription (la que estás editando)
-        currentPrescription.removeLine(prodID.getCode());
+        currentPrescription.removeLine(prodID);
     }
 
     public void enterTreatmentEndingDate(Date date)

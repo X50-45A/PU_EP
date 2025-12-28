@@ -20,6 +20,7 @@ final public class ProductID {
         return code;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

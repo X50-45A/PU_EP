@@ -5,14 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aef05949-8270-411e-a380-5e4a23585425" name="Changes" comment="Ahora todos los tests funcionan, algunos fallan">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/historia-clinica-electronica.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/consultamedica/ConsultationTerminal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/consultamedica/ConsultationTerminal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/consultamedica/MedicalHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/consultamedica/MedicalHistory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/data/HealthCardID.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/HealthCardID.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/data/HealthCardID.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/data/HealthCardID.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/data/HealthCardIDTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/data/HealthCardIDTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/medicalconsultation/ConsultationTerminalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/medicalconsultation/ConsultationTerminalTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/medicalconsultation/MedicalHistoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/medicalconsultation/MedicalHistoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/consultamedica/MedicalPrescription.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/consultamedica/MedicalPrescription.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/ProductID.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/ProductID.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/medicalconsultation/MedicalPrescriptionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/medicalconsultation/MedicalPrescriptionTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -57,7 +57,9 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "JUnit.All in PU_EP.executor": "Run",
+    "JUnit.All in historia-clinica-electronica.executor": "Run",
     "JUnit.DigitalSignatureTest.executor": "Run",
+    "JUnit.MedicalPrescriptionTest$EdgeCasesTests.executor": "Run",
     "JUnit.PosologyTest.executor": "Run",
     "JUnit.ePrescribeCodeTest.executor": "Run",
     "JUnit.java.data in PU_EP.executor": "Run",
@@ -69,7 +71,8 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "fixes",
     "kotlin-language-version-configured": "true",
-    "project.structure.last.edited": "SDKs",
+    "last_opened_file_path": "C:/Users/marcg/OneDrive-udl.cat/Escriptori/ep/prac3/PU_EP",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "settings.sync",
@@ -81,10 +84,12 @@
       <recent name="services" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.All in PU_EP">
-    <configuration name="All in PU_EP" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="PU_EP" />
+  <component name="RunManager" selected="JUnit.All in historia-clinica-electronica">
+    <configuration name="All in historia-clinica-electronica" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="historia-clinica-electronica" />
       <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -105,16 +110,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PosologyTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="PU_EP" />
+    <configuration name="MedicalPrescriptionTest$EdgeCasesTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="historia-clinica-electronica" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="java.medicalconsultation.*" />
+          <option name="PATTERN" value="medicalconsultation.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="java.medicalconsultation" />
-      <option name="MAIN_CLASS_NAME" value="java.medicalconsultation.PosologyTest" />
+      <option name="PACKAGE_NAME" value="medicalconsultation.MedicalPrescriptionTest" />
+      <option name="MAIN_CLASS_NAME" value="medicalconsultation.MedicalPrescriptionTest$EdgeCasesTests" />
+      <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -151,19 +157,18 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.All in PU_EP" />
+        <item itemvalue="JUnit.All in historia-clinica-electronica" />
+        <item itemvalue="JUnit.MedicalPrescriptionTest$EdgeCasesTests" />
         <item itemvalue="JUnit.DigitalSignatureTest" />
         <item itemvalue="JUnit.java.data in PU_EP" />
         <item itemvalue="JUnit.ePrescribeCodeTest" />
-        <item itemvalue="JUnit.PosologyTest" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.138" />
-        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.29346.138" />
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.26199.169" />
       </set>
     </attachedChunks>
   </component>

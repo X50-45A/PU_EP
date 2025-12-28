@@ -274,7 +274,7 @@ public class MedicalPrescriptionTest {
             assertTrue(prescription.containsProduct(product1));
 
             // Remover
-            prescription.removeLine(product1.getCode());
+            prescription.removeLine(product1);
 
             // Verificar
             assertEquals(1, prescription.getLineCount());
@@ -287,7 +287,7 @@ public class MedicalPrescriptionTest {
         void testRemoveDoesNotAffectOtherLines() throws Exception {
             prescription.addLine(product1, validGuidelines);
             prescription.addLine(product2, validGuidelines);
-            prescription.removeLine(product1.getCode());
+            prescription.removeLine(product1);
 
             // product2 sigue existiendo
             assertTrue(prescription.containsProduct(product2));
@@ -299,8 +299,8 @@ public class MedicalPrescriptionTest {
         void testRemoveMultipleLines() throws Exception {
             prescription.addLine(product1, validGuidelines);
             prescription.addLine(product2, validGuidelines);
-            prescription.removeLine(product1.getCode());
-            prescription.removeLine(product2.getCode());
+            prescription.removeLine(product1);
+            prescription.removeLine(product2);
 
             assertEquals(0, prescription.getLineCount());
         }
@@ -314,7 +314,7 @@ public class MedicalPrescriptionTest {
         @DisplayName("removeLine throws exception for non-existent ProductID")
         void testRemoveNonExistentProduct() {
             assertThrows(Exception.class, () -> {
-                prescription.removeLine(product1.getCode());
+                prescription.removeLine(product1);
             });
         }
     }
@@ -351,11 +351,10 @@ public class MedicalPrescriptionTest {
         void testAddModifyRemoveSequence() throws ProductAlreadyInPrescriptionException, IncorrectTakingGuidelinesException, ProductNotInPrescriptionException {
             prescription.addLine(product1, validGuidelines);
             prescription.modifyDoseInLine(product1, 2.0f);
-            prescription.removeLine(product1.getCode());
+            prescription.removeLine(product1);
             
-            assertThrows(Exception.class, () -> {
-                prescription.getLine(product1);
-            });
+            assertThrows(ProductNotInPrescriptionException.class,
+                    () -> prescription.getLine(product1));
         }
     }
 }

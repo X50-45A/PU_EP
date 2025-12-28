@@ -228,7 +228,7 @@ public class MedicalPrescription {
      * @param prodID Identificador del producto a eliminar
      * @throws ProductNotInPrescriptionException si el producto no existe en la prescripción
      */
-    public void removeLine(String prodID)
+    public void removeLine(ProductID prodID)
             throws ProductNotInPrescriptionException {
 
         // Verificar que el producto existe
