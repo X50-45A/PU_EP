@@ -7,7 +7,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import data.*;
-import services.doubles.*;
+import java.services.doubles.HealthNationalServiceMock;
+import java.services.doubles.HealthNationalServiceStub;
 import java.util.Date;
 import java.net.ConnectException;
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,8 +17,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ConsultationTerminalTest {
 
     private ConsultationTerminal terminal;
-    private services.doubles.HealthNationalServiceStub healthServiceStub;
-    private services.doubles.HealthNationalServiceMock healthServiceMock;
+    private HealthNationalServiceStub healthServiceStub;
+    private HealthNationalServiceMock healthServiceMock;
     private HealthCardID validCIP;
     private ProductID medicine1;
     private String[] validGuidelines;
@@ -25,8 +26,8 @@ public class ConsultationTerminalTest {
     @BeforeEach
     void setUp() throws InvalidProductIDException {
         terminal = new ConsultationTerminal();
-        healthServiceStub = new services.doubles.HealthNationalServiceStub();
-        healthServiceMock = new services.doubles.HealthNationalServiceMock();
+        healthServiceStub = new HealthNationalServiceStub();
+        healthServiceMock = new HealthNationalServiceMock();
 
         validCIP = new HealthCardID("1234567890ABCDEF");
         medicine1 = new ProductID("123456789012");

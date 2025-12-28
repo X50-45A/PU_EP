@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="aef05949-8270-411e-a380-5e4a23585425" name="Changes" comment="adaptados algunos tests a los nombres de los metodos de la implementacion.">
-      <change beforePath="$PROJECT_DIR$/src/main/java/services/HealthNationalService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/HealthNationalService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/java/data/ePrescribeCodeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/java/data/ePrescripCodeTest.java" afterDir="false" />
+    <list default="true" id="aef05949-8270-411e-a380-5e4a23585425" name="Changes" comment="otros tests modificados que no tengan errores.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/java/medicalconsultation/ConsultationTerminalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/java/medicalconsultation/ConsultationTerminalTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/java/services/doubles/HealthNationalServiceMock.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/java/services/doubles/HealthNationalServiceMock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/java/services/doubles/HealthNationalServiceStub.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/java/services/doubles/HealthNationalServiceStub.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,7 +131,7 @@
       <workItem from="1766864340461" duration="521000" />
       <workItem from="1766867496289" duration="748000" />
       <workItem from="1766880081978" duration="17000" />
-      <workItem from="1766913264458" duration="2450000" />
+      <workItem from="1766913264458" duration="3285000" />
     </task>
     <task id="LOCAL-00001" summary="fixeado muchaaaaaaaaaaas cosas, alguien modifico la estructura del proyecto y por eso fallavan los imports">
       <option name="closed" value="true" />
@@ -214,7 +213,15 @@
       <option name="project" value="LOCAL" />
       <updated>1766915445616</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="otros tests modificados que no tengan errores.">
+      <option name="closed" value="true" />
+      <created>1766915747327</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1766915747327</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -240,6 +247,7 @@
     <MESSAGE value="Bugs en algunas clases implementadas." />
     <MESSAGE value="modficado el gitignore para que funcione de forma correcta" />
     <MESSAGE value="adaptados algunos tests a los nombres de los metodos de la implementacion." />
-    <option name="LAST_COMMIT_MESSAGE" value="adaptados algunos tests a los nombres de los metodos de la implementacion." />
+    <MESSAGE value="otros tests modificados que no tengan errores." />
+    <option name="LAST_COMMIT_MESSAGE" value="otros tests modificados que no tengan errores." />
   </component>
 </project>

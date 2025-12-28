@@ -1,8 +1,10 @@
-package services.doubles;
+package java.services.doubles;
 
+import consultamedica.IncorrectParametersException;
+import data.InvalidePrescripCodeException;
 import services.HealthNationalService;
-import medicalconsultation.MedicalHistory;
-import medicalconsultation.MedicalPrescription;
+import consultamedica.MedicalHistory;
+import consultamedica.MedicalPrescription;
 import data.HealthCardID;
 import data.ePrescripCode;
 import java.net.ConnectException;
@@ -15,7 +17,7 @@ public class HealthNationalServiceStub implements HealthNationalService {
 
     @Override
     public MedicalHistory getMedicalHistory(HealthCardID cip)
-            throws ConnectException {
+            throws ConnectException, IncorrectParametersException {
         if (cip == null) {
             throw new IllegalArgumentException("CIP cannot be null");
         }
@@ -25,7 +27,7 @@ public class HealthNationalServiceStub implements HealthNationalService {
     @Override
     public MedicalPrescription getMedicalPrescription(
             HealthCardID cip, String illness)
-            throws ConnectException {
+            throws ConnectException, IncorrectParametersException {
         if (cip == null) {
             throw new IllegalArgumentException("CIP cannot be null");
         }
@@ -39,7 +41,7 @@ public class HealthNationalServiceStub implements HealthNationalService {
     public MedicalPrescription sendHistoryAndPrescription(
             HealthCardID cip, MedicalHistory hce, String illness,
             MedicalPrescription mPresc)
-            throws ConnectException {
+            throws ConnectException, InvalidePrescripCodeException {
         if (mPresc == null) {
             throw new IllegalArgumentException("Prescription cannot be null");
         }
@@ -51,7 +53,7 @@ public class HealthNationalServiceStub implements HealthNationalService {
     @Override
     public MedicalPrescription generateTreatmCodeAndRegister(
             MedicalPrescription ePresc)
-            throws ConnectException {
+            throws ConnectException, InvalidePrescripCodeException {
         if (ePresc == null) {
             throw new IllegalArgumentException("ePrescription cannot be null");
         }
