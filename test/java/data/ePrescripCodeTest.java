@@ -7,7 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("ePrescripCode Tests")
-public class ePrescribeCodeTest {
+public class ePrescripCodeTest {
 
     @Test
     @DisplayName("Constructor accepts valid alphanumeric code")

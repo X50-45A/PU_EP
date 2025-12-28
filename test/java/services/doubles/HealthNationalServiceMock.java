@@ -1,10 +1,14 @@
-package services.doubles;
+package java.services.doubles;
 
+import consultamedica.IncorrectParametersException;
+import consultamedica.MedicalHistory;
+import consultamedica.MedicalPrescription;
+import data.InvalidePrescripCodeException;
 import services.HealthNationalService;
-import medicalconsultation.MedicalHistory;
-import medicalconsultation.MedicalPrescription;
 import data.HealthCardID;
 import data.ePrescripCode;
+import services.NotCompletedMedicalPrescription;
+
 import java.net.ConnectException;
 
 /**
@@ -43,7 +47,7 @@ public class HealthNationalServiceMock implements HealthNationalService {
 
     @Override
     public MedicalHistory getMedicalHistory(HealthCardID cip)
-            throws ConnectException {
+            throws ConnectException, IncorrectParametersException {
 
         if (throwConnectException) {
             throw new ConnectException("Network connection failed");
@@ -58,7 +62,7 @@ public class HealthNationalServiceMock implements HealthNationalService {
     @Override
     public MedicalPrescription getMedicalPrescription(
             HealthCardID cip, String illness)
-            throws ConnectException {
+            throws ConnectException, IncorrectParametersException {
 
         if (throwConnectException) {
             throw new ConnectException("Network connection failed");
@@ -73,11 +77,12 @@ public class HealthNationalServiceMock implements HealthNationalService {
         return new MedicalPrescription(cip, 100, illness);
     }
 
+
     @Override
     public MedicalPrescription sendHistoryAndPrescription(
             HealthCardID cip, MedicalHistory hce, String illness,
             MedicalPrescription mPresc)
-            throws ConnectException {
+            throws ConnectException, InvalidePrescripCodeException {
 
         if (throwConnectException) {
             throw new ConnectException("Network connection failed");
@@ -98,8 +103,7 @@ public class HealthNationalServiceMock implements HealthNationalService {
 
     @Override
     public MedicalPrescription generateTreatmCodeAndRegister(
-            MedicalPrescription ePresc)
-            throws ConnectException {
+            MedicalPrescription ePresc) throws ConnectException, InvalidePrescripCodeException {
 
         if (throwConnectException) {
             throw new ConnectException("Network connection failed");

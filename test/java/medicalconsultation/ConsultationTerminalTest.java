@@ -1,6 +1,7 @@
 package java.medicalconsultation;
 
 import consultamedica.ConsultationTerminal;
+import consultamedica.MedicalPrescription;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
