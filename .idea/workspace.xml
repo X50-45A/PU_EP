@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="aef05949-8270-411e-a380-5e4a23585425" name="Changes" comment="modificaciones en los tests">
-      <change beforePath="$PROJECT_DIR$/test/java/data/ePrescripCodeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/java/data/ePrescribeCodeTest.java" afterDir="false" />
+    <list default="true" id="aef05949-8270-411e-a380-5e4a23585425" name="Changes" comment="modficado el gitignore para que funcione de forma correcta">
+      <change beforePath="$PROJECT_DIR$/src/main/java/consultamedica/MedicalPrescription.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/consultamedica/MedicalPrescription.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/java/data/ProductIDTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/java/data/ProductIDTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/java/medicalconsultation/ConsultationTerminalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/java/medicalconsultation/ConsultationTerminalTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/java/medicalconsultation/MedicalPrescriptionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/java/medicalconsultation/MedicalPrescriptionTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +38,9 @@
     &quot;accountId&quot;: &quot;670fb11a-e520-421c-bb8a-577a43d59ea2&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -126,7 +132,7 @@
       <workItem from="1766864340461" duration="521000" />
       <workItem from="1766867496289" duration="748000" />
       <workItem from="1766880081978" duration="17000" />
-      <workItem from="1766913264458" duration="1152000" />
+      <workItem from="1766913264458" duration="2141000" />
     </task>
     <task id="LOCAL-00001" summary="fixeado muchaaaaaaaaaaas cosas, alguien modifico la estructura del proyecto y por eso fallavan los imports">
       <option name="closed" value="true" />
@@ -184,7 +190,23 @@
       <option name="project" value="LOCAL" />
       <updated>1766914119945</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Bugs en algunas clases implementadas.">
+      <option name="closed" value="true" />
+      <created>1766914520181</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1766914520181</updated>
+    </task>
+    <task id="LOCAL-00009" summary="modficado el gitignore para que funcione de forma correcta">
+      <option name="closed" value="true" />
+      <created>1766914650648</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1766914650648</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -207,6 +229,8 @@
     <MESSAGE value="fixes y mas cosas fixeadas" />
     <MESSAGE value="cambios en el maven haciendo que los tests funcionen y tiren, solo es necessario adaptar todos los metodos de los tests a los metodos de la implementacion." />
     <MESSAGE value="modificaciones en los tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="modificaciones en los tests" />
+    <MESSAGE value="Bugs en algunas clases implementadas." />
+    <MESSAGE value="modficado el gitignore para que funcione de forma correcta" />
+    <option name="LAST_COMMIT_MESSAGE" value="modficado el gitignore para que funcione de forma correcta" />
   </component>
 </project>

@@ -164,7 +164,7 @@ public class ConsultationTerminalTest {
 
         @Test
         @DisplayName("modifyDoseInLine throws ProductNotInPrescriptionException")
-        void testModifyDoseProductNotFound() {
+        void testModifyDoseProductNotFound() throws InvalidProductIDException {
             terminal.setHealthNationalService(healthServiceStub);
 
             assertDoesNotThrow(() -> {
@@ -187,7 +187,7 @@ public class ConsultationTerminalTest {
 
         @Test
         @DisplayName("removeLine throws ProductNotInPrescriptionException")
-        void testRemoveLineProductNotFound() {
+        void testRemoveLineProductNotFound() throws InvalidProductIDException {
             terminal.setHealthNationalService(healthServiceStub);
 
             assertDoesNotThrow(() -> {
@@ -475,7 +475,7 @@ public class ConsultationTerminalTest {
 
         @Test
         @DisplayName("Different dosage levels")
-        void testDifferentDosagelLevels() {
+        void testDifferentDosagelLevels() throws InvalidProductIDException {
             float[] dosages = {0.5f, 1.0f, 2.5f, 5.0f, 10.0f};
             
             for (float dose : dosages) {

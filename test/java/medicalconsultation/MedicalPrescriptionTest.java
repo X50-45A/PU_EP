@@ -243,35 +243,37 @@ public class MedicalPrescriptionTest {
         @Test
         @DisplayName("removeLine removes medicine correctly")
         void testRemoveExistingLine() throws ProductNotInPrescriptionException {
-            prescription.removeLine(product1);
+            prescription.removeLine(product1.getCode());
             assertThrows(Exception.class, () -> {
-                prescription.getPrescriptionLine(product1);
+                prescription.getLine(product1);
             });
+            assertFalse(prescription.containsProduct(product1));
         }
 
         @Test
         @DisplayName("removeLine does not affect other lines")
         void testRemoveDoesNotAffectOtherLines() throws ProductAlreadyInPrescriptionException, IncorrectTakingGuidelinesException, ProductNotInPrescriptionException {
             prescription.addLine(product2, validGuidelines);
-            prescription.removeLine(product1);
+            prescription.removeLine(product1.getCode());
             
             assertDoesNotThrow(() -> {
-                prescription.getPrescriptionLine(product2);
+                prescription.getLine(product2);
             });
+
         }
 
         @Test
         @DisplayName("removeLine multiple medicines")
         void testRemoveMultipleLines() throws ProductAlreadyInPrescriptionException, IncorrectTakingGuidelinesException, ProductNotInPrescriptionException {
             prescription.addLine(product2, validGuidelines);
-            prescription.removeLine(product1);
-            prescription.removeLine(product2);
+            prescription.removeLine(product1.getCode());
+            prescription.removeLine(product2.getCode());
             
             assertThrows(Exception.class, () -> {
-                prescription.getPrescriptionLine(product1);
+                prescription.getLine(product1);
             });
             assertThrows(Exception.class, () -> {
-                prescription.getPrescriptionLine(product2);
+                prescription.getLine(product2);
             });
         }
     }
@@ -284,7 +286,7 @@ public class MedicalPrescriptionTest {
         @DisplayName("removeLine throws exception for non-existent ProductID")
         void testRemoveNonExistentProduct() {
             assertThrows(Exception.class, () -> {
-                prescription.removeLine(product1);
+                prescription.removeLine(product1.getCode());
             });
         }
     }
@@ -296,7 +298,7 @@ public class MedicalPrescriptionTest {
         @Test
         @DisplayName("getHealthCardID returns correct CIP")
         void testGetHealthCardID() {
-            assertEquals(cip, prescription.getHealthCardID());
+            assertEquals(cip, prescription.getCip());
         }
 
         @Test
@@ -321,10 +323,10 @@ public class MedicalPrescriptionTest {
         void testAddModifyRemoveSequence() throws ProductAlreadyInPrescriptionException, IncorrectTakingGuidelinesException, ProductNotInPrescriptionException {
             prescription.addLine(product1, validGuidelines);
             prescription.modifyDoseInLine(product1, 2.0f);
-            prescription.removeLine(product1);
+            prescription.removeLine(product1.getCode());
             
             assertThrows(Exception.class, () -> {
-                prescription.getPrescriptionLine(product1);
+                prescription.getLine(product1);
             });
         }
     }

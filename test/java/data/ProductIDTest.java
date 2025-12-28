@@ -1,5 +1,6 @@
 package java.data;
 
+import data.InvalidProductIDException;
 import data.ProductID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -10,10 +11,10 @@ public class ProductIDTest {
 
     @Test
     @DisplayName("Constructor accepts valid 12-digit UPC code")
-    void testConstructorWithValidCode() {
+    void testConstructorWithValidCode() throws InvalidProductIDException {
         String validCode = "123456789012";
         ProductID pid = new ProductID(validCode);
-        assertEquals(validCode, pid.getProductID());
+        assertEquals(validCode, pid.getCode());
     }
 
     @Test
@@ -45,7 +46,7 @@ public class ProductIDTest {
 
     @Test
     @DisplayName("equals returns true for same value")
-    void testEqualsWithSameValue() {
+    void testEqualsWithSameValue() throws InvalidProductIDException {
         ProductID id1 = new ProductID("123456789012");
         ProductID id2 = new ProductID("123456789012");
         assertEquals(id1, id2);
@@ -53,7 +54,7 @@ public class ProductIDTest {
 
     @Test
     @DisplayName("equals returns false for different values")
-    void testEqualsWithDifferentValue() {
+    void testEqualsWithDifferentValue() throws InvalidProductIDException {
         ProductID id1 = new ProductID("123456789012");
         ProductID id2 = new ProductID("210987654321");
         assertNotEquals(id1, id2);
@@ -61,7 +62,7 @@ public class ProductIDTest {
 
     @Test
     @DisplayName("hashCode is consistent for same value")
-    void testHashCodeConsistency() {
+    void testHashCodeConsistency() throws InvalidProductIDException {
         ProductID id1 = new ProductID("123456789012");
         ProductID id2 = new ProductID("123456789012");
         assertEquals(id1.hashCode(), id2.hashCode());

@@ -65,14 +65,6 @@ public class MedicalPrescription {
     }
 
     /**
-     * Constructor simplificado para testing
-     */
-    public MedicalPrescription(HealthCardID cip, int memberShipNum)
-            throws IncorrectParametersException {
-        this(cip, memberShipNum, "General");
-    }
-
-    /**
      * Añade una línea de prescripción médica con un medicamento y sus pautas
      * @param prodID Identificador del producto (medicamento)
      * @param instruc Array de instrucciones con el formato:
@@ -236,7 +228,7 @@ public class MedicalPrescription {
      * @param prodID Identificador del producto a eliminar
      * @throws ProductNotInPrescriptionException si el producto no existe en la prescripción
      */
-    public void removeLine(ProductID prodID)
+    public void removeLine(String prodID)
             throws ProductNotInPrescriptionException {
 
         // Verificar que el producto existe
