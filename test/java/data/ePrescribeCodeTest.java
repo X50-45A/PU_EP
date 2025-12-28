@@ -7,14 +7,14 @@ import org.junit.jupiter.api.DisplayName;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("ePrescripCode Tests")
-public class ePrescripCodeTest {
+public class ePrescribeCodeTest {
 
     @Test
     @DisplayName("Constructor accepts valid alphanumeric code")
     void testConstructorWithValidCode() throws InvalidePrescripCodeException {
         String validCode = "PRESC123456";
         ePrescripCode epc = new ePrescripCode(validCode);
-        assertEquals(validCode, epc.getePrescripCode());
+        assertEquals(validCode, epc.getCode());
     }
 
     @Test
@@ -49,7 +49,7 @@ public class ePrescripCodeTest {
 
     @Test
     @DisplayName("equals returns true for same value")
-    void testEqualsWithSameValue() {
+    void testEqualsWithSameValue() throws InvalidePrescripCodeException {
         ePrescripCode epc1 = new ePrescripCode("PRESC123456");
         ePrescripCode epc2 = new ePrescripCode("PRESC123456");
         assertEquals(epc1, epc2);
@@ -57,7 +57,7 @@ public class ePrescripCodeTest {
 
     @Test
     @DisplayName("equals returns false for different values")
-    void testEqualsWithDifferentValue() {
+    void testEqualsWithDifferentValue() throws InvalidePrescripCodeException {
         ePrescripCode epc1 = new ePrescripCode("PRESC123456");
         ePrescripCode epc2 = new ePrescripCode("PRESC654321");
         assertNotEquals(epc1, epc2);
@@ -65,7 +65,7 @@ public class ePrescripCodeTest {
 
     @Test
     @DisplayName("hashCode is consistent for same value")
-    void testHashCodeConsistency() {
+    void testHashCodeConsistency() throws InvalidePrescripCodeException {
         ePrescripCode epc1 = new ePrescripCode("PRESC123456");
         ePrescripCode epc2 = new ePrescripCode("PRESC123456");
         assertEquals(epc1.hashCode(), epc2.hashCode());

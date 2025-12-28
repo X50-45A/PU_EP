@@ -16,7 +16,7 @@ final public class ProductID {
         this.code = code;
     }
 
-    public ProductID getCode() {
+    public String getCode() {
         return code;
     }
 
